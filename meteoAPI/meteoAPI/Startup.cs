@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.AspNetCore.Mvc;
 
 namespace meteoAPI
 {
@@ -30,6 +32,14 @@ namespace meteoAPI
             // Add framework services.
             services.AddMvc();
             services.AddRouting(opt => opt.LowercaseUrls = true);
+            services.AddApiVersioning(opt =>
+            {
+                opt.ApiVersionReader = new MediaTypeApiVersionReader();
+                opt.AssumeDefaultVersionWhenUnspecified = true;
+                opt.ReportApiVersions = true;
+                opt.DefaultApiVersion = new ApiVersion(1, 0);
+                opt.ApiVersionSelector = new CurrentImplementationApiVersionSelector(opt);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
