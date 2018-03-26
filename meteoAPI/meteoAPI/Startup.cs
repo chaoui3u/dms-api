@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.Mvc;
+using meteoAPI.Filters;
 
 namespace meteoAPI
 {
@@ -30,7 +31,10 @@ namespace meteoAPI
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc(opt =>
+            {
+                opt.Filters.Add(typeof(JsonExceptionFilter));
+            });
             services.AddRouting(opt => opt.LowercaseUrls = true);
             services.AddApiVersioning(opt =>
             {
