@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace meteoAPI.Models
 {
-    public class Sites : Resource
+    public class Site : Resource
     {
-        public string Id { get; set; }
         public string Refrence { get; set; }
         public string Label { get; set; }
         public double Latitude { get; set; }
@@ -15,6 +14,5 @@ namespace meteoAPI.Models
         public string Type { get; set; }
         public string Classification { get; set; }
         public string Area { get; set; }
-
     }
 }

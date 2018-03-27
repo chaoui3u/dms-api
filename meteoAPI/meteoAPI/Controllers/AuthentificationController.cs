@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace meteoAPI.Controllers
 {
-    [Route("/[controller]/logout")]
+    [Route("[controller]/")]
     public class AuthentificationController : Controller
     {
-        [HttpGet(Name = nameof(GetLogOut))]
+        [HttpGet("logout",Name = nameof(GetLogOut))]
         public IActionResult GetLogOut()
         {
             throw new NotImplementedException();
