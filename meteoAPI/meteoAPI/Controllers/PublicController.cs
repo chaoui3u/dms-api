@@ -1,4 +1,5 @@
 ﻿using meteoAPI.Models;
+using meteoAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,11 +13,11 @@ namespace meteoAPI.Controllers
     [Route("[controller]/")]
     public class PublicController :Controller
     {
-        private readonly MeteoApiContext _context;
+        private readonly ISiteService _siteService;
 
-        public PublicController(MeteoApiContext context)
+        public PublicController(ISiteService siteService)
         {
-            _context = context;
+            _siteService = siteService;
         }
 
         [HttpGet("sites/", Name = nameof(GetSites))]
@@ -29,22 +30,10 @@ namespace meteoAPI.Controllers
         [HttpGet("sites/{siteId}/", Name = nameof(GetSitesByIdAsync))]
         public async Task<IActionResult> GetSitesByIdAsync(string siteId, CancellationToken ct)
         {
-            var entity = await _context.Sites.SingleOrDefaultAsync(s => s.Id == siteId, ct);
-            if (entity == null) return NotFound();
+            var site = await _siteService.GetSiteAsync(siteId, ct);
+            if (site == null) return NotFound();
 
-            var resource = new Site
-            {
-                Href = Url.Link(nameof(GetSitesByIdAsync), new { siteId = entity.Id }),
-                Refrence = entity.Refrence,
-                Label = entity.Label,
-                Latitude = entity.Latitude,
-                Logitude = entity.Logitude,
-                Type = entity.Type,
-                Classification = entity.Classification,
-                Area = entity.Area
-            };
-
-            return Ok(resource);
+            return Ok(site);
         }
     }
 }

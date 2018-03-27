@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 using meteoAPI.Filters;
 using meteoAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using meteoAPI.Services;
+using AutoMapper;
 
 namespace meteoAPI
 {
@@ -47,7 +49,7 @@ namespace meteoAPI
             //using an in-memory database for dev
             //TODO:swap out with real database while in production
             services.AddDbContext<MeteoApiContext>(opt => opt.UseInMemoryDatabase());
-
+            services.AddAutoMapper();
             // Add framework services.
             services.AddMvc(opt =>
             {
@@ -67,7 +69,9 @@ namespace meteoAPI
                 opt.ApiVersionSelector = new CurrentImplementationApiVersionSelector(opt);
             });
 
-            services.Configure<Sites>(Configuration.GetSection("Sites"));
+            //services.Configure<Sites>(Configuration.GetSection("Sites"));
+
+            services.AddScoped<ISiteService, DefaulSiteService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

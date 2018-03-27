@@ -7,6 +7,7 @@ namespace meteoAPI.Models
 {
     public class Site : Resource
     {
+        public string Id { get; set; }
         public string Refrence { get; set; }
         public string Label { get; set; }
         public double Latitude { get; set; }
