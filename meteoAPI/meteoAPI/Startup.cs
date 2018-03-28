@@ -14,6 +14,7 @@ using meteoAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using meteoAPI.Services;
 using AutoMapper;
+using meteoAPI.Infrastructure;
 
 namespace meteoAPI
 {
@@ -54,7 +55,7 @@ namespace meteoAPI
             services.AddMvc(opt =>
             {
                 opt.Filters.Add(typeof(JsonExceptionFilter));
-
+                opt.Filters.Add(typeof(LinkRewritingFilter));
                 //Require Https for all controllers
                 opt.SslPort = _httpsPort;
                 opt.Filters.Add(typeof(RequireHttpsAttribute));

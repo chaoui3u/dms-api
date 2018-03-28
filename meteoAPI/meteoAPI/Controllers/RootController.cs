@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using meteoAPI.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +14,11 @@ namespace meteoAPI.Controllers
         [HttpGet(Name = nameof(GetRoot))]
         public IActionResult GetRoot()
         {
-            var Response = new
+            var Response = new RootResponse
             {
-                href = Url.Link(nameof(GetRoot), null),
-                logout = new { href = Url.Link(nameof(AuthentificationController.GetLogOut), null)},
-                sites = new { href = Url.Link(nameof(PublicController.GetSites),null)}
+                Href =null, //Url.Link(nameof(GetRoot), null),
+                Logout = Link.To(nameof(AuthentificationController.GetLogOut)), //new { href = Url.Link(nameof(AuthentificationController.GetLogOut), null)},
+                Sites = Link.To(nameof(PublicController.GetSites)) ,  //new { href = Url.Link(nameof(PublicController.GetSites),null)}
             };
             return Ok(Response);
         }
