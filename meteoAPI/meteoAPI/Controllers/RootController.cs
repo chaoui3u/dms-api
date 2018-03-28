@@ -18,7 +18,7 @@ namespace meteoAPI.Controllers
             {
                 Href =null, //Url.Link(nameof(GetRoot), null),
                 Logout = Link.To(nameof(AuthentificationController.GetLogOut)), //new { href = Url.Link(nameof(AuthentificationController.GetLogOut), null)},
-                Sites = Link.To(nameof(PublicController.GetSites)) ,  //new { href = Url.Link(nameof(PublicController.GetSites),null)}
+                Sites = Link.To(nameof(RestrictedController.GetSites)) ,  //new { href = Url.Link(nameof(PublicController.GetSites),null)}
             };
             return Ok(Response);
         }
