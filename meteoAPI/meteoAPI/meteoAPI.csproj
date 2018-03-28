@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Compile Remove="Controllers\SitesController.cs" />
+    <Compile Remove="Infrastructure\LinkRewritingFilter.cs" />
     <Compile Remove="Models\Sites.cs" />
   </ItemGroup>
 

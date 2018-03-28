@@ -15,7 +15,7 @@ namespace meteoAPI.Models
             => new Link
             {
                 RouteName = routeName,
-                RouteValue = routeValues,
+                RouteValues = routeValues,
                 Method = GetMethod,
                 Relations = null
             };
@@ -25,7 +25,7 @@ namespace meteoAPI.Models
         [JsonProperty(Order = -3, NullValueHandling = NullValueHandling.Ignore , DefaultValueHandling = DefaultValueHandling.Ignore)]
         [DefaultValue(GetMethod)]
         public string Method { get; set; }
-        [JsonProperty(Order = -2 ,PropertyName = "rel", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty(Order = -2, PropertyName = "rel", NullValueHandling = NullValueHandling.Ignore)]
         public string[] Relations { get; set; }
 
         //store route name before being rewritten
@@ -33,6 +33,6 @@ namespace meteoAPI.Models
         public string RouteName { get; set; }
 
         [JsonIgnore]
-        public object RouteValue { get; set; }
+        public object RouteValues { get; set; }
     }
 }

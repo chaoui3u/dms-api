@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using meteoAPI.Services;
 using AutoMapper;
 using meteoAPI.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace meteoAPI
 {
@@ -54,11 +55,16 @@ namespace meteoAPI
             // Add framework services.
             services.AddMvc(opt =>
             {
+              
                 opt.Filters.Add(typeof(JsonExceptionFilter));
                 opt.Filters.Add(typeof(LinkRewritingFilter));
                 //Require Https for all controllers
                 opt.SslPort = _httpsPort;
                 opt.Filters.Add(typeof(RequireHttpsAttribute));
+
+                var jsonFormatter = opt.OutputFormatters.OfType<JsonOutputFormatter>().Single();
+                opt.OutputFormatters.Remove(jsonFormatter);
+                opt.OutputFormatters.Add(new IonOutputFormatter(jsonFormatter));
             });
             services.AddRouting(opt => opt.LowercaseUrls = true);
             services.AddApiVersioning(opt =>
@@ -72,7 +78,7 @@ namespace meteoAPI
 
             //services.Configure<Sites>(Configuration.GetSection("Sites"));
 
-            services.AddScoped<ISiteService, DefaulSiteService>();
+            services.AddScoped<ISiteService, DefaultSiteService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -100,30 +106,30 @@ namespace meteoAPI
 
         private static void AddTestData(MeteoApiContext context)
         {
-            context.Sites.Add(new SiteEntity
-            {
-                Id = "CRIC",
-                Refrence = "01505",
-                Label = "CRIC Saint Quentin",
-                Latitude = 0.87008541721366,
-                Logitude = 0.05736315474888,
-                Type = "0",
-                Classification = null,
-                Area = "Trafic"
-            });
+            //context.Sites.Add(new SiteEntity
+            //{
+            //    Id = "CRIC",
+            //    Refrence = "01505",
+            //    Label = "CRIC Saint Quentin",
+            //    Latitude = 0.87008541721366,
+            //    Logitude = 0.05736315474888,
+            //    Type = "0",
+            //    Classification = null,
+            //    Area = "Trafic"
+            //});
 
-            context.Sites.Add(new SiteEntity
-            {
-                Id = "SM_SQ1",
-                Refrence = "01506",
-                Label = "P. Bert St Quentin",
-                Latitude = 0.870274,
-                Logitude = 0.05771077,
-                Type = "0",
-                Classification = "Périurbaine",
-                Area = "De fond"
-            });
-            context.SaveChanges();
+            //context.Sites.Add(new SiteEntity
+            //{
+            //    Id = "SM_SQ1",
+            //    Refrence = "01506",
+            //    Label = "P. Bert St Quentin",
+            //    Latitude = 0.870274,
+            //    Logitude = 0.05771077,
+            //    Type = "0",
+            //    Classification = "Périurbaine",
+            //    Area = "De fond"
+            //});
+            //context.SaveChanges();
         }
     }
 }

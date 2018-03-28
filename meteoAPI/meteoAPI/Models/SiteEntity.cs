@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace meteoAPI.Models
 {
-    public class SiteEntity :Resource
+    public class SiteEntity : Resource
     {
         public string Id { get; set; }
         public string Refrence { get; set; }

@@ -9,11 +9,11 @@ using AutoMapper;
 
 namespace meteoAPI.Services
 {
-    public class DefaulSiteService : ISiteService
+    public class DefaultSiteService : ISiteService
     {
         private readonly MeteoApiContext _context;
 
-        public DefaulSiteService(MeteoApiContext context)
+        public DefaultSiteService(MeteoApiContext context)
         {
             _context = context;
         }

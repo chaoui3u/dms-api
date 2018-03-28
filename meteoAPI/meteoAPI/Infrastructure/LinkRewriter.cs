@@ -22,7 +22,7 @@ namespace meteoAPI.Infrastructure
 
             return new Link
             {
-                Href = _urlHelper.Link(original.RouteName, original.RouteValue),
+                Href = _urlHelper.Link(original.RouteName, original.RouteValues),
                 Method = original.Method,
                 Relations = original.Relations
             };
