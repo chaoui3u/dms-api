@@ -9,6 +9,8 @@ namespace meteoAPI.Services
 {
     public interface ISiteService
     {
-        Task<Site> GetSiteAsync(string id, CancellationToken ct); 
+        Task<Site> GetSiteAsync(string id, CancellationToken ct);
+
+        Task<IEnumerable<Site>> GetSitesAsync(CancellationToken ct);
     }
 }

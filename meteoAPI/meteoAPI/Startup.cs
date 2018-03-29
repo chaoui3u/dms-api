@@ -106,30 +106,30 @@ namespace meteoAPI
 
         private static void AddTestData(MeteoApiContext context)
         {
-            //context.Sites.Add(new SiteEntity
-            //{
-            //    Id = "CRIC",
-            //    Refrence = "01505",
-            //    Label = "CRIC Saint Quentin",
-            //    Latitude = 0.87008541721366,
-            //    Logitude = 0.05736315474888,
-            //    Type = "0",
-            //    Classification = null,
-            //    Area = "Trafic"
-            //});
+            context.Sites.Add(new SiteEntity
+            {
+                Id = "CRIC",
+                Refrence = "01505",
+                Label = "CRIC Saint Quentin",
+                Latitude = 0.87008541721366,
+                Logitude = 0.05736315474888,
+                Type = "0",
+                Classification = null,
+                Area = "Trafic"
+            });
 
-            //context.Sites.Add(new SiteEntity
-            //{
-            //    Id = "SM_SQ1",
-            //    Refrence = "01506",
-            //    Label = "P. Bert St Quentin",
-            //    Latitude = 0.870274,
-            //    Logitude = 0.05771077,
-            //    Type = "0",
-            //    Classification = "Périurbaine",
-            //    Area = "De fond"
-            //});
-            //context.SaveChanges();
+            context.Sites.Add(new SiteEntity
+            {
+                Id = "SM_SQ1",
+                Refrence = "01506",
+                Label = "P. Bert St Quentin",
+                Latitude = 0.870274,
+                Logitude = 0.05771077,
+                Type = "0",
+                Classification = "Périurbaine",
+                Area = "De fond"
+            });
+            context.SaveChanges();
         }
     }
 }

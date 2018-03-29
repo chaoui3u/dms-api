@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,6 +20,14 @@ namespace meteoAPI.Models
                 Method = GetMethod,
                 Relations = null
             };
+        public static Link ToCollection(string routeName, object routeValues = null)
+          => new Link
+          {
+              RouteName = routeName,
+              RouteValues = routeValues,
+              Method = GetMethod,
+              Relations = new string[] {"Collection"}
+          };
 
         [JsonProperty(Order = -4)]
         public string Href { get; set; }

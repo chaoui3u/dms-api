@@ -1,4 +1,5 @@
-﻿using meteoAPI.Services;
+﻿using meteoAPI.Models;
+using meteoAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -18,10 +19,18 @@ namespace meteoAPI.Controllers
             _siteService = siteService;
         }
 
-        [HttpGet("sites/", Name = nameof(GetSites))]
-        public IActionResult GetSites()
+        [HttpGet("sites/", Name = nameof(GetSitesAsync))]
+        public async Task<IActionResult> GetSitesAsync(CancellationToken ct)
         {
-            throw new NotImplementedException();
+            var sites = await _siteService.GetSitesAsync(ct);
+
+            var collectionLink = Link.ToCollection(nameof(GetSitesAsync));
+            var collection = new Collection<Site>
+            {
+                Self = collectionLink,
+                Value = sites.ToArray()
+            };
+            return Ok(collection);
         }
 
         // /sites/{siteID}
