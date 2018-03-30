@@ -66,7 +66,7 @@ namespace meteoAPI
                 opt.OutputFormatters.Remove(jsonFormatter);
                 opt.OutputFormatters.Add(new IonOutputFormatter(jsonFormatter));
             });
-            services.AddRouting(opt => opt.LowercaseUrls = true);
+            //services.AddRouting(opt => opt.LowercaseUrls = true);
             services.AddApiVersioning(opt =>
             {
                 opt.ApiVersionReader = new MediaTypeApiVersionReader();
@@ -79,6 +79,7 @@ namespace meteoAPI
             //services.Configure<Sites>(Configuration.GetSection("Sites"));
 
             services.AddScoped<ISiteService, DefaultSiteService>();
+            services.AddScoped<IMesureService, DefaultMesureService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -128,6 +129,22 @@ namespace meteoAPI
                 Type = "0",
                 Classification = "Périurbaine",
                 Area = "De fond"
+            });
+            context.Mesures.Add(new MesureEntity
+            {
+                Id = "idNO",
+                Label = "label du NO",
+                Id_Site = "SAM1",
+                Unit = "_",
+                phy_name = "NO"
+            });
+            context.Mesures.Add(new MesureEntity
+            {
+                Id = "idNOX",
+                Label = " label du NOX",
+                Id_Site = "SAM1",
+                Unit = "_",
+                phy_name = "NOX"
             });
             context.SaveChanges();
         }

@@ -9,5 +9,6 @@ namespace meteoAPI.Models
     {
         public Link Logout { get; set; }
         public Link Sites { get; set; }
+        public Link Mesures { get; set; }
     }
 }

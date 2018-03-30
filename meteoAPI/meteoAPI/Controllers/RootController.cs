@@ -19,6 +19,7 @@ namespace meteoAPI.Controllers
                 Self= Link.To(nameof(GetRoot)), //Url.Link(nameof(GetRoot), null),
                 Logout = Link.To(nameof(AuthentificationController.GetLogOut)), //new { href = Url.Link(nameof(AuthentificationController.GetLogOut), null)},
                 Sites = Link.To(nameof(RestrictedController.GetSitesAsync)) ,  //new { href = Url.Link(nameof(PublicController.GetSites),null)}
+                Mesures = Link.To(nameof(RestrictedController.GetMesuresAsync)),
             };
             return Ok(Response);
         }

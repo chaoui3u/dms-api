@@ -14,5 +14,6 @@ namespace meteoAPI
         }
 
         public DbSet<SiteEntity> Sites { get; set; }
+        public DbSet<MesureEntity> Mesures { get; set; }
     }
 }

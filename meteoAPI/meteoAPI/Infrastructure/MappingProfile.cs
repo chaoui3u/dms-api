@@ -14,6 +14,11 @@ namespace meteoAPI.Infrastructure
             CreateMap<SiteEntity, Site>().ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
                 Link.To(nameof(Controllers.RestrictedController.GetSitesByIdAsync), new { siteId = src.Id })));
+
+            CreateMap<MesureEntity, Mesure>().ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
+                Link.To(nameof(Controllers.RestrictedController.GetMesuresByIdAsync), new { mesureId = src.Id })));
+
         }
     }
 }
