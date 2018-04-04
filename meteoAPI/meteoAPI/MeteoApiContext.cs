@@ -1,4 +1,5 @@
 ﻿using meteoAPI.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,12 +8,13 @@ using System.Threading.Tasks;
 
 namespace meteoAPI
 {
-    public class MeteoApiContext :DbContext
+    public class MeteoApiContext :IdentityDbContext<UserEntity,UserRoleEntity, Guid>
     {
+    
         public MeteoApiContext(DbContextOptions options):base(options)
         {
         }
-
+        
         public DbSet<SiteEntity> Sites { get; set; }
         public DbSet<MesureEntity> Mesures { get; set; }
     }

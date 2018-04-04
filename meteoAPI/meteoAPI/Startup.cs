@@ -16,6 +16,7 @@ using meteoAPI.Services;
 using AutoMapper;
 using meteoAPI.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.Identity;
 
 namespace meteoAPI
 {
@@ -51,6 +52,12 @@ namespace meteoAPI
             //using an in-memory database for dev
             //TODO:swap out with real database while in production
             services.AddDbContext<MeteoApiContext>(opt => opt.UseInMemoryDatabase());
+
+            //Add ASP.NET core identity
+            services.AddIdentity<UserEntity, UserRoleEntity>()
+                .AddEntityFrameworkStores<MeteoApiContext>()
+                .AddDefaultTokenProviders();
+
             services.AddAutoMapper();
             // Add framework services.
             services.AddMvc(opt =>
@@ -80,6 +87,7 @@ namespace meteoAPI
 
             services.AddScoped<ISiteService, DefaultSiteService>();
             services.AddScoped<IMesureService, DefaultMesureService>();
+            services.AddScoped<IUserService, DefaultUserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -91,8 +99,16 @@ namespace meteoAPI
             //add test data in development
             if (env.IsDevelopment())
             {
-                var context = app.ApplicationServices.GetRequiredService<MeteoApiContext>();
-                AddTestData(context);
+                //Add test roles and users
+                var roleManager = app.ApplicationServices
+                    .GetRequiredService<RoleManager<UserRoleEntity>>();
+                var userManager = app.ApplicationServices
+                    .GetRequiredService<UserManager<UserEntity>>();
+               
+
+               
+                AddTestUsers(roleManager, userManager, app.ApplicationServices.GetRequiredService<MeteoApiContext>()).Wait();
+                AddTestData(app.ApplicationServices.GetRequiredService<MeteoApiContext>());
             }
 
             app.UseHsts(opt => 
@@ -103,10 +119,37 @@ namespace meteoAPI
             });
 
             app.UseMvc();
+          
+        }
+
+        private static async Task AddTestUsers(RoleManager<UserRoleEntity> roleManager,
+            UserManager<UserEntity> userManager, MeteoApiContext context)
+        {
+            //add a test role
+            await roleManager.CreateAsync(new UserRoleEntity("Admin"));
+            //add a test user
+            var user = new UserEntity()
+            {
+                Email = "admin@test.local",
+                UserName = "admin@test.local",
+                FirstName = "Admin",
+                LastName = "Tester",
+                CreatedAt = DateTimeOffset.UtcNow,
+                SecurityStamp = Guid.NewGuid().ToString()
+            };
+
+            context.Users.Add(user);
+            context.SaveChanges();
+            await userManager.CreateAsync(user, "password123");       
+            //Put the user in the Admin Role
+            await userManager.AddToRoleAsync(user, "Admin");
+            await userManager.UpdateAsync(user);
+            
         }
 
         private static void AddTestData(MeteoApiContext context)
         {
+            
             context.Sites.Add(new SiteEntity
             {
                 Id = "CRIC",
