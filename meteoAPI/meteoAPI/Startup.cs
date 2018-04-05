@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Identity;
 using AspNet.Security.OpenIdConnect.Primitives;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace meteoAPI
 {
@@ -77,6 +78,8 @@ namespace meteoAPI
                 opt.AllowPasswordFlow();
                 services.AddAuthentication().AddOAuthValidation();
                 services.AddSingleton<IAuthenticationSchemeProvider, CustomAuthenticationSchemeProvider>();
+                
+
             });
             
 
@@ -86,6 +89,7 @@ namespace meteoAPI
                 .AddDefaultTokenProviders();
 
             services.AddAutoMapper();
+
             // Add framework services.
             services.AddMvc(opt =>
             {
@@ -115,6 +119,13 @@ namespace meteoAPI
             services.AddScoped<ISiteService, DefaultSiteService>();
             services.AddScoped<IMesureService, DefaultMesureService>();
             services.AddScoped<IUserService, DefaultUserService>();
+
+            //add Policy Authorisation
+            services.AddAuthorization(opt=> 
+            {
+                opt.AddPolicy("ViewAllUsersPolicy",
+                    p => p.RequireAuthenticatedUser().RequireRole("Admin"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -168,8 +179,9 @@ namespace meteoAPI
             };
 
             context.Users.Add(user);
+            
+            await userManager.CreateAsync(user, "Password123!");
             context.SaveChanges();
-            await userManager.CreateAsync(user, "Password123");           
             //Put the user in the Admin Role
             await userManager.AddToRoleAsync(user, "Admin");        
             await userManager.UpdateAsync(user);

@@ -14,11 +14,14 @@ namespace meteoAPI.Controllers
     public class AuthentificationController : Controller
     {
         private readonly IUserService _userService;
+        private readonly IAuthorizationService _authzService;
 
         public AuthentificationController(
-           IUserService userService)
+           IUserService userService,
+           IAuthorizationService authzService)
         {
             _userService = userService;
+            _authzService = authzService;
         }
 
 
@@ -28,22 +31,39 @@ namespace meteoAPI.Controllers
             throw new NotImplementedException();
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet("users", Name = nameof(GetVisibleUsersAsync))]
         public async Task<IActionResult> GetVisibleUsersAsync(CancellationToken ct)
         {
             if (!ModelState.IsValid) return BadRequest(new ApiError(ModelState));
 
-            // TODO: Authorization check. Is the user an admin?
-
-            // TODO: Return a collection of visible users
-            var users = await _userService.GetUsersAsync(ct);
-            var collectionLink = Link.ToCollection(nameof(GetVisibleUsersAsync));
-            var collection = new Collection<User>
+            
+            IEnumerable<User> users = new List<User>();
+            var mySelf = new User();
+            // Authorization check. Is the user an admin?
+            if (User.Identity.IsAuthenticated)
             {
-                Self = collectionLink,
-                Value = users.ToArray()
-            };
-            return Ok(collection);
+                var canSeeEveryOne = await _authzService.AuthorizeAsync(User, "ViewAllUsersPolicy");
+                if (canSeeEveryOne.Succeeded)
+                {
+                    users= await _userService.GetUsersAsync(ct);
+                    var collectionLink = Link.ToCollection(nameof(GetVisibleUsersAsync));
+                    var collection = new Collection<User>
+                    {
+                        Self = collectionLink,
+                        Value = users.ToArray()
+                    };
+                    return Ok(collection);
+                }
+                else
+                {
+                     mySelf= await _userService.GetUserAsync(User);
+                }
+            }
+
+            //  Return a collection of visible users
+            return Ok(mySelf);
+
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
