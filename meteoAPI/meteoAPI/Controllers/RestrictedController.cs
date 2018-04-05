@@ -1,5 +1,6 @@
 ﻿using meteoAPI.Models;
 using meteoAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace meteoAPI.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("[controller]/")]
     public class RestrictedController :Controller
     {

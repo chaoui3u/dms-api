@@ -78,7 +78,7 @@ namespace meteoAPI.Controllers
             return Ok(user);
         }
 
-        [HttpPost("users", Name = nameof(RegisterUserAsync))]
+        [HttpPost("signup", Name = nameof(RegisterUserAsync))]
         public async Task<IActionResult> RegisterUserAsync(
             [FromBody] RegisterForm form,
             CancellationToken ct)
