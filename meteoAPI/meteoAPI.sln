@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "meteoAPI", "meteoAPI\meteoAPI.csproj", "{975A7E58-4250-4163-A4C7-13ABAD65C5F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "meteoAPI", "meteoAPI\meteoAPI.csproj", "{975A7E58-4250-4163-A4C7-13ABAD65C5F9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{11692753-7B9D-491D-9A1C-11C992E07253}"
+	ProjectSection(SolutionItems) = preProject
+		NuGet.config = NuGet.config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +23,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BB0EFECA-B7DB-4A8C-80E4-5AE06B1B0B2C}
 	EndGlobalSection
 EndGlobal

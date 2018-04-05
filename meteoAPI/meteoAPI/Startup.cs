@@ -17,6 +17,8 @@ using AutoMapper;
 using meteoAPI.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Identity;
+using AspNet.Security.OpenIdConnect.Primitives;
+using Microsoft.AspNetCore.Authentication;
 
 namespace meteoAPI
 {
@@ -51,7 +53,32 @@ namespace meteoAPI
         {
             //using an in-memory database for dev
             //TODO:swap out with real database while in production
-            services.AddDbContext<MeteoApiContext>(opt => opt.UseInMemoryDatabase());
+            services.AddDbContext<MeteoApiContext>(opt => 
+                 {
+                opt.UseInMemoryDatabase();
+                opt.UseOpenIddict();
+                });
+
+            // Map some of the default claim names to the proper OpenID Connect claim names
+            services.Configure<IdentityOptions>(opt =>
+            {
+                opt.ClaimsIdentity.UserNameClaimType = OpenIdConnectConstants.Claims.Name;
+                opt.ClaimsIdentity.UserIdClaimType = OpenIdConnectConstants.Claims.Subject;
+                opt.ClaimsIdentity.RoleClaimType = OpenIdConnectConstants.Claims.Role;
+            });
+
+            // Add OpenIddict services
+            services.AddOpenIddict<Guid>(opt =>
+            {
+                opt.AddEntityFrameworkCoreStores<MeteoApiContext>();
+                opt.AddMvcBinders();
+
+                opt.EnableTokenEndpoint("/token");
+                opt.AllowPasswordFlow();
+                services.AddAuthentication().AddOAuthValidation();
+                services.AddSingleton<IAuthenticationSchemeProvider, CustomAuthenticationSchemeProvider>();
+            });
+            
 
             //Add ASP.NET core identity
             services.AddIdentity<UserEntity, UserRoleEntity>()
@@ -117,9 +144,11 @@ namespace meteoAPI
                 opt.IncludeSubdomains();
                 opt.Preload();
             });
-
+            
+            app.UseAuthentication();
+            
             app.UseMvc();
-          
+            
         }
 
         private static async Task AddTestUsers(RoleManager<UserRoleEntity> roleManager,
@@ -128,7 +157,7 @@ namespace meteoAPI
             //add a test role
             await roleManager.CreateAsync(new UserRoleEntity("Admin"));
             //add a test user
-            var user = new UserEntity()
+            var user = new UserEntity
             {
                 Email = "admin@test.local",
                 UserName = "admin@test.local",
@@ -140,11 +169,10 @@ namespace meteoAPI
 
             context.Users.Add(user);
             context.SaveChanges();
-            await userManager.CreateAsync(user, "password123");       
+            await userManager.CreateAsync(user, "Password123");           
             //Put the user in the Admin Role
-            await userManager.AddToRoleAsync(user, "Admin");
+            await userManager.AddToRoleAsync(user, "Admin");        
             await userManager.UpdateAsync(user);
-            
         }
 
         private static void AddTestData(MeteoApiContext context)

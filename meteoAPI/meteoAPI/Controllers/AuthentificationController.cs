@@ -28,7 +28,7 @@ namespace meteoAPI.Controllers
             throw new NotImplementedException();
         }
 
-        [HttpGet("users/", Name = nameof(GetVisibleUsersAsync))]
+        [HttpGet("users", Name = nameof(GetVisibleUsersAsync))]
         public async Task<IActionResult> GetVisibleUsersAsync(CancellationToken ct)
         {
             if (!ModelState.IsValid) return BadRequest(new ApiError(ModelState));
@@ -46,9 +46,36 @@ namespace meteoAPI.Controllers
             return Ok(collection);
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [HttpGet("users/me", Name = nameof(GetMeAsync))]
+        public async Task<IActionResult> GetMeAsync(CancellationToken ct)
+        {
+            if (User == null) return BadRequest();
+
+            var user = await _userService.GetUserAsync(User);
+            if (user == null) return NotFound();
+
+            return Ok(user);
+        }
+
+        [HttpPost("users", Name = nameof(RegisterUserAsync))]
+        public async Task<IActionResult> RegisterUserAsync(
+            [FromBody] RegisterForm form,
+            CancellationToken ct)
+        {
+            if (!ModelState.IsValid) return BadRequest(new ApiError(ModelState));
+            var (succeed, error) = await _userService.CreateUserAsync(form);
+            if (succeed) return Created(Url.Link(nameof(GetMeAsync),null),null);
+            return BadRequest(new ApiError
+            {
+                Message = "Registration failed",
+                Detail = error
+            });
+        }
+
         [Authorize]
-        [HttpGet("{userId}", Name = nameof(GetUserByIdAsync))]
-        public Task<IActionResult> GetUserByIdAsync(int userId, CancellationToken ct)
+        [HttpGet("users/{userId}", Name = nameof(GetUserByIdAsync))]
+        public Task<IActionResult> GetUserByIdAsync(Guid userId, CancellationToken ct)
         {
             // TODO is userId the current user's ID?
             // If so, return myself.
