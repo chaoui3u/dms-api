@@ -74,7 +74,7 @@ namespace meteoAPI
                 opt.AddEntityFrameworkCoreStores<MeteoApiContext>();
                 opt.AddMvcBinders();
 
-                opt.EnableTokenEndpoint("/token");
+                opt.EnableTokenEndpoint("/login");
                 opt.AllowPasswordFlow();
                 services.AddAuthentication().AddOAuthValidation();
                 services.AddSingleton<IAuthenticationSchemeProvider, CustomAuthenticationSchemeProvider>();
