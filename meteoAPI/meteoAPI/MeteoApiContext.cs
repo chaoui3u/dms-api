@@ -11,7 +11,7 @@ namespace meteoAPI
     public class MeteoApiContext :IdentityDbContext<UserEntity,UserRoleEntity, Guid>
     {
     
-        public MeteoApiContext(DbContextOptions options):base(options)
+        public MeteoApiContext(DbContextOptions<MeteoApiContext> options):base(options)
         {
         }
         
