@@ -123,6 +123,13 @@ namespace meteoAPI
 
             services.AddScoped<ISiteService, DefaultSiteService>();
             services.AddScoped<IMesureService, DefaultMesureService>();
+            services.AddScoped<IMainDataService, DefaultMainDataService>();
+            services.AddScoped<IRainService, DefaultRainService>();
+            services.AddScoped<ISnowService, DefaultSnowService>();
+            services.AddScoped<ISunService, DefaultSunService>();
+            services.AddScoped<IWeatherService, DefaultWeatherService>();
+            services.AddScoped<IWeatherHistoryService, DefaultWeatherHistoryService>();
+            services.AddScoped<IWindService, DefaultWindService>();
             services.AddScoped<IUserService, DefaultUserService>();
 
             //add Policy Authorisation

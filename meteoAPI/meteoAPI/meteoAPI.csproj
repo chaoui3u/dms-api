@@ -4,12 +4,12 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
+  <!--<ItemGroup>
     <Compile Remove="Controllers\SitesController.cs" />
     <Compile Remove="Controllers\UsersController.cs" />
     <Compile Remove="Infrastructure\LinkRewritingFilter.cs" />
     <Compile Remove="Models\Sites.cs" />
-  </ItemGroup>
+  </ItemGroup>-->
 
   <ItemGroup>
     <Folder Include="wwwroot\" />

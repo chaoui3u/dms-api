@@ -16,11 +16,27 @@ namespace meteoAPI.Controllers
     {
         private readonly ISiteService _siteService;
         private readonly IMesureService _mesureService;
+        private readonly IWeatherService _weatherService;
+        private readonly IWeatherHistoryService _weatherHistoryService;
+        private readonly IRainService _rainService;
+        private readonly ISnowService _snowService;
+        private readonly IWindService _windService;
+        private readonly ISunService _sunService;
+        private readonly IMainDataService _mainDataService;
 
-        public RestrictedController(ISiteService siteService ,IMesureService mesureService)
+        public RestrictedController(ISiteService siteService ,IMesureService mesureService, IWeatherService weatherService
+            , IWeatherHistoryService weatherHistoryService, IRainService rainService, ISnowService snowService
+            , IWindService windService, ISunService sunService, IMainDataService mainDataService)
         {
             _siteService = siteService;
             _mesureService = mesureService;
+            _weatherService = weatherService;
+            _weatherHistoryService = weatherHistoryService;
+            _rainService = rainService;
+            _snowService = snowService;
+            _windService = windService;
+            _sunService = sunService;
+            _mainDataService = mainDataService;
         }
 
         [HttpGet("sites/", Name = nameof(GetSitesAsync))]

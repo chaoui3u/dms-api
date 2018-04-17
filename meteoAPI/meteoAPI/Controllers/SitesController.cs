@@ -1,29 +1,49 @@
 ﻿using meteoAPI.Models;
+using meteoAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace meteoAPI.Controllers
 {
-    //[Route("/public/[controller]")]
-    //public class SitesController : Controller
-    //{
-    //    private readonly Sites _sites;
 
-    //    public SitesController(IOptions<Sites> sitesAccesor)
-    //    {
-    //        _sites = sitesAccesor.Value;
-    //    }
+    [Authorize(AuthenticationSchemes = "Bearer")]
+    [Route("[controller]/")]
+    public class SitesController :Controller
+    {
+        private readonly ISiteService _siteService;
 
-    //    [HttpGet(Name = nameof(GetSites))]
-    //    public IActionResult GetSites()
-    //    {
-    //        _sites.Href = Url.Link(nameof(GetSites), null);
+        public SitesController(ISiteService siteService)
+        {
+            _siteService = siteService;
+        }
 
-    //        return Ok(_sites);
-    //    }
-    //}
+        [HttpGet(Name = nameof(GetSitesAsync))]
+        public async Task<IActionResult> GetSitesAsync(CancellationToken ct)
+        {
+            var sites = await _siteService.GetSitesAsync(ct);
+
+            var collectionLink = Link.ToCollection(nameof(GetSitesAsync));
+            var collection = new Collection<Site>
+            {
+                Self = collectionLink,
+                Value = sites.ToArray()
+            };
+            return Ok(collection);
+        }
+
+        // /sites/{siteID}
+        [HttpGet("{siteId}", Name = nameof(GetSitesByIdAsync))]
+        public async Task<IActionResult> GetSitesByIdAsync(string siteId, CancellationToken ct)
+        {
+            var site = await _siteService.GetSiteAsync(siteId, ct);
+            if (site == null) return NotFound();
+
+            return Ok(site);
+        }
+    }
 }
