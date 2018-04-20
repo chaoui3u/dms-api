@@ -129,7 +129,6 @@ namespace meteoAPI
             services.AddScoped<ISnowService, DefaultSnowService>();
             services.AddScoped<ISunService, DefaultSunService>();
             services.AddScoped<IWeatherService, DefaultWeatherService>();
-            services.AddScoped<IWeatherHistoryService, DefaultWeatherHistoryService>();
             services.AddScoped<IWindService, DefaultWindService>();
            services.AddScoped<ICloudsService, DefaultCloudsService>();
             services.AddScoped<IUserService, DefaultUserService>();
@@ -159,8 +158,8 @@ namespace meteoAPI
                
 
                
-             // AddTestUsers(roleManager, userManager, app.ApplicationServices.GetRequiredService<MeteoApiContext>()).Wait();
-             // AddTestData(app.ApplicationServices.GetRequiredService<MeteoApiContext>());
+              AddTestUsers(roleManager, userManager, app.ApplicationServices.GetRequiredService<MeteoApiContext>()).Wait();
+             AddTestData(app.ApplicationServices.GetRequiredService<MeteoApiContext>());
             }
 
             app.UseHsts(opt => 
