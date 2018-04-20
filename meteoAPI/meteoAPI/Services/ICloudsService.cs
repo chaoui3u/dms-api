@@ -9,7 +9,7 @@ namespace meteoAPI.Services
 {
     public interface ICloudsService
     {
-        Task<Clouds> GetCloudsAsync(int id, CancellationToken ct);
+        Task<Clouds> GetCloudsAsync(Guid id, CancellationToken ct);
 
         Task<IEnumerable<Clouds>> GetAllCloudsAsync(CancellationToken ct);
     }

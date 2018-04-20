@@ -36,7 +36,7 @@ namespace meteoAPI.Controllers
         }
 
         [HttpGet("{mainDataId}", Name = nameof(GetMainDataByIdAsync))]
-        public async Task<IActionResult> GetMainDataByIdAsync(int mainDataId, CancellationToken ct)
+        public async Task<IActionResult> GetMainDataByIdAsync(Guid mainDataId, CancellationToken ct)
         {
             var mainData = await _mainDataService.GetMainDataAsync(mainDataId, ct);
             if (mainData == null) return NotFound();

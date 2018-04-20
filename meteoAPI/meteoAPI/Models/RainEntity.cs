@@ -7,7 +7,7 @@ namespace meteoAPI.Models
 {
     public class RainEntity
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public float Volume { get; set; }
     }
 }

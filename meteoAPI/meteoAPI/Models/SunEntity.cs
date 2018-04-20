@@ -7,7 +7,7 @@ namespace meteoAPI.Models
 {
     public class SunEntity
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public DateTimeOffset SunRise { get; set; }
         public DateTimeOffset SunSet { get; set; }
     }

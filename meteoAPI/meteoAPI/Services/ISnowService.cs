@@ -9,7 +9,7 @@ namespace meteoAPI.Services
 {
     public interface ISnowService
     {
-        Task<Snow> GetSnowAsync(int id, CancellationToken ct);
+        Task<Snow> GetSnowAsync(Guid id, CancellationToken ct);
 
         Task<IEnumerable<Snow>> GetAllSnowAsync(CancellationToken ct);
     }

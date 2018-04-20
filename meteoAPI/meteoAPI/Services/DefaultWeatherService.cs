@@ -19,7 +19,7 @@ namespace meteoAPI.Services
             _context = context;
         }
 
-        public async Task<Weather> GetWeatherAsync(int id, CancellationToken ct)
+        public async Task<Weather> GetWeatherAsync(Guid id, CancellationToken ct)
         {
             var entity = await _context.Weather.SingleOrDefaultAsync(s => s.Id == id, ct);
             if (entity == null) return null;

@@ -9,7 +9,7 @@ namespace meteoAPI.Services
 {
     public interface ISunService
     {
-        Task<Sun> GetSunAsync(int id, CancellationToken ct);
+        Task<Sun> GetSunAsync(Guid id, CancellationToken ct);
 
         Task<IEnumerable<Sun>> GetAllSunAsync(CancellationToken ct);
     }

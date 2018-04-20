@@ -9,7 +9,7 @@ namespace meteoAPI.Services
 {
     public interface IWindService
     {
-        Task<Wind> GetWindAsync(int id, CancellationToken ct);
+        Task<Wind> GetWindAsync(Guid id, CancellationToken ct);
 
         Task<IEnumerable<Wind>> GetAllWindAsync(CancellationToken ct);
     }

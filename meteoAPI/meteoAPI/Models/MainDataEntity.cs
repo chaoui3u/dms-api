@@ -7,7 +7,7 @@ namespace meteoAPI.Models
 {
     public class MainDataEntity
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public float Temp { get; set; }
         public int Humidity { get; set; }
         public float TempMin { get; set; }

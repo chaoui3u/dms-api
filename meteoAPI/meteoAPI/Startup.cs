@@ -116,7 +116,7 @@ namespace meteoAPI
                 opt.ApiVersionReader = new MediaTypeApiVersionReader();
                 opt.AssumeDefaultVersionWhenUnspecified = true;
                 opt.ReportApiVersions = true;
-                opt.DefaultApiVersion = new ApiVersion(1, 0);
+                opt.DefaultApiVersion = new ApiVersion(2, 0);
                 opt.ApiVersionSelector = new CurrentImplementationApiVersionSelector(opt);
             });
 
@@ -202,7 +202,42 @@ namespace meteoAPI
 
         private static void AddTestData(MeteoApiContext context)
         {
-            
+            context.Clouds.Add(new CloudsEntity
+            {
+                All = 10
+            });
+            context.Clouds.Add(new CloudsEntity
+            {
+                All = 20
+            });
+            context.MainData.Add(new MainDataEntity
+            {
+                Temp = 30,
+                Humidity = 10,
+                TempMin = 20,
+                TempMax = 35,
+                Pressure = 995.93F,
+                SeaLevel = 1031.17F,
+                GrndLevel = 995.93F
+            });
+            context.Rain.Add(new RainEntity
+            {
+                Volume = 0.03F
+            });
+            context.Snow.Add(new SnowEntity
+            {
+                Volume = 0
+            });
+            context.Sun.Add(new SunEntity
+            {
+                SunRise = new DateTime(2018, 4, 20, 8, 30, 0),
+                SunSet = new DateTime(2018, 4, 20, 19, 30, 0)
+            });
+            context.Wind.Add(new WindEntity
+            {
+                Speed = 120,
+                Degree = 180
+            });
             context.Sites.Add(new SiteEntity
             {
                 Id = "CRIC",

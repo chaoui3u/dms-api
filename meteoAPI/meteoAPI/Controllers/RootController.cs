@@ -22,6 +22,13 @@ namespace meteoAPI.Controllers
                 Users = Link.To(nameof(AuthentificationController.GetVisibleUsersAsync)),
                 Sites = Link.To(nameof(SitesController.GetSitesAsync)) ,  //new { href = Url.Link(nameof(PublicController.GetSites),null)}
                 Mesures = Link.To(nameof(MesuresController.GetMesuresAsync)),
+                Clouds = Link.To(nameof(CloudsController.GetAllCloudsAsync)),
+                MainData = Link.To(nameof(MainDataController.GetAllMainDataAsync)),
+                Rain = Link.To(nameof(RainController.GetAllRainAsync)),
+                Snow = Link.To(nameof(SnowController.GetAllSnowAsync)),
+                Sun= Link.To(nameof(SunController.GetAllSunAsync)),
+                Weather = Link.To(nameof(WeatherController.GetAllWeatherAsync)),
+                Wind= Link.To(nameof(WindController.GetAllWindAsync))
             };
             return Ok(Response);
         }

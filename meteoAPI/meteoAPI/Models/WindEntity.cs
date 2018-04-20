@@ -7,7 +7,7 @@ namespace meteoAPI.Models
 {
     public class WindEntity
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public float Speed { get; set; }
         public float Degree { get; set; }
     }
