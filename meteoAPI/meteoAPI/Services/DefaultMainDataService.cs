@@ -28,7 +28,7 @@ namespace meteoAPI.Services
 
         }
 
-        public async Task<IEnumerable<MainData>> GetMainDataAsync(CancellationToken ct)
+        public async Task<IEnumerable<MainData>> GetAllMainDataAsync(CancellationToken ct)
         {
             var query = _context.MainData.ProjectTo<MainData>();
 

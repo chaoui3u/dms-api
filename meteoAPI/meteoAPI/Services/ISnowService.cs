@@ -11,6 +11,6 @@ namespace meteoAPI.Services
     {
         Task<Snow> GetSnowAsync(int id, CancellationToken ct);
 
-        Task<IEnumerable<Snow>> GetSnowAsync(CancellationToken ct);
+        Task<IEnumerable<Snow>> GetAllSnowAsync(CancellationToken ct);
     }
 }

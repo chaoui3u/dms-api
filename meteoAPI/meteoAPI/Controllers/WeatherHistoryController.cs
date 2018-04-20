@@ -21,12 +21,12 @@ namespace meteoAPI.Controllers
             _weatherHistoryService = weatherHistoryService;
         }
 
-        [HttpGet(Name = nameof(GetWeatherHistoryAsync))]
-        public async Task<IActionResult> GetWeatherHistoryAsync(CancellationToken ct)
+        [HttpGet(Name = nameof(GetAllWeatherHistoryAsync))]
+        public async Task<IActionResult> GetAllWeatherHistoryAsync(CancellationToken ct)
         {
-            var weatherHistory = await _weatherHistoryService.GetWeatherHistoryAsync(ct);
+            var weatherHistory = await _weatherHistoryService.GetAllWeatherHistoryAsync(ct);
 
-            var collectionLink = Link.ToCollection(nameof(GetWeatherHistoryAsync));
+            var collectionLink = Link.ToCollection(nameof(GetAllWeatherHistoryAsync));
             var collection = new Collection<WeatherHistory>
             {
                 Self = collectionLink,

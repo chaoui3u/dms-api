@@ -10,11 +10,6 @@ namespace meteoAPI
 {
     public class MeteoApiContext :IdentityDbContext<UserEntity,UserRoleEntity, Guid>
     {
-    
-        public MeteoApiContext(DbContextOptions<MeteoApiContext> options):base(options)
-        {
-        }
-        
         public DbSet<SiteEntity> Sites { get; set; }
         public DbSet<MesureEntity> Mesures { get; set; }
         public DbSet<CloudsEntity> Clouds { get; set; }
@@ -25,5 +20,11 @@ namespace meteoAPI
         public DbSet<WeatherHistoryEntity> WeatherHistory { get; set; }
         public DbSet<SnowEntity> Snow { get; set; }
         public DbSet<MainDataEntity> MainData { get; set; }
+
+        public MeteoApiContext(DbContextOptions<MeteoApiContext> options):base(options)
+        {
+        }
+        
+      
     }
 }

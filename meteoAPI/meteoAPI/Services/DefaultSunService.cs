@@ -28,7 +28,7 @@ namespace meteoAPI.Services
 
         }
 
-        public async Task<IEnumerable<Sun>> GetSunAsync(CancellationToken ct)
+        public async Task<IEnumerable<Sun>> GetAllSunAsync(CancellationToken ct)
         {
             var query = _context.Sun.ProjectTo<Sun>();
 

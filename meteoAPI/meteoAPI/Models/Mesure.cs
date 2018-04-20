@@ -11,6 +11,6 @@ namespace meteoAPI.Models
         public string Label { get; set; }
         public string Id_Site { get; set; }
         public string Unit { get; set; }
-        public string phy_name { get; set; }
+        public string Phy_name { get; set; }
     }
 }

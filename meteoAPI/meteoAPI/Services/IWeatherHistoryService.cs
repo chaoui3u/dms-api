@@ -11,6 +11,6 @@ namespace meteoAPI.Services
     {
         Task<WeatherHistory> GetWeatherHistoryAsync(int id, CancellationToken ct);
 
-        Task<IEnumerable<WeatherHistory>> GetWeatherHistoryAsync(CancellationToken ct);
+        Task<IEnumerable<WeatherHistory>> GetAllWeatherHistoryAsync(CancellationToken ct);
     }
 }

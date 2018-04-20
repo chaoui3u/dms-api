@@ -56,12 +56,13 @@ namespace meteoAPI
             //TODO:swap out with real database while in production
             services.AddDbContext<MeteoApiContext>(opt => 
                  {
-                opt.UseSqlServer("Data Source=DESKTOP-BLRLJMH;" +
-                    "Initial Catalog=Weather;" +
-                    "Integrated Security=True;" +
-                    "Connect Timeout=30;Encrypt=False;" +
-                    "TrustServerCertificate=False;" +
-                    "ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                     opt.UseInMemoryDatabase();
+                //opt.UseSqlServer("Data Source=DESKTOP-BLRLJMH;" +
+                //    "Initial Catalog=Weather;" +
+                //    "Integrated Security=True;" +
+                //    "Connect Timeout=30;Encrypt=False;" +
+                //    "TrustServerCertificate=False;" +
+                //    "ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
                 opt.UseOpenIddict();
                 });
 
@@ -109,7 +110,7 @@ namespace meteoAPI
                 opt.OutputFormatters.Remove(jsonFormatter);
                 opt.OutputFormatters.Add(new IonOutputFormatter(jsonFormatter));
             });
-            //services.AddRouting(opt => opt.LowercaseUrls = true);
+            services.AddRouting(opt => opt.LowercaseUrls = true);
             services.AddApiVersioning(opt =>
             {
                 opt.ApiVersionReader = new MediaTypeApiVersionReader();
@@ -130,6 +131,7 @@ namespace meteoAPI
             services.AddScoped<IWeatherService, DefaultWeatherService>();
             services.AddScoped<IWeatherHistoryService, DefaultWeatherHistoryService>();
             services.AddScoped<IWindService, DefaultWindService>();
+           services.AddScoped<ICloudsService, DefaultCloudsService>();
             services.AddScoped<IUserService, DefaultUserService>();
 
             //add Policy Authorisation
@@ -157,8 +159,8 @@ namespace meteoAPI
                
 
                
-                AddTestUsers(roleManager, userManager, app.ApplicationServices.GetRequiredService<MeteoApiContext>()).Wait();
-                AddTestData(app.ApplicationServices.GetRequiredService<MeteoApiContext>());
+             // AddTestUsers(roleManager, userManager, app.ApplicationServices.GetRequiredService<MeteoApiContext>()).Wait();
+             // AddTestData(app.ApplicationServices.GetRequiredService<MeteoApiContext>());
             }
 
             app.UseHsts(opt => 
@@ -231,7 +233,7 @@ namespace meteoAPI
                 Label = "label du NO",
                 Id_Site = "SAM1",
                 Unit = "_",
-                phy_name = "NO"
+                Phy_name = "NO"
             });
             context.Mesures.Add(new MesureEntity
             {
@@ -239,7 +241,7 @@ namespace meteoAPI
                 Label = " label du NOX",
                 Id_Site = "SAM1",
                 Unit = "_",
-                phy_name = "NOX"
+                Phy_name = "NOX"
             });
             context.SaveChanges();
         }

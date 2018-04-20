@@ -21,12 +21,12 @@ namespace meteoAPI.Controllers
             _sunService = sunService;
         }
 
-        [HttpGet(Name = nameof(GetSunAsync))]
-        public async Task<IActionResult> GetSunAsync(CancellationToken ct)
+        [HttpGet(Name = nameof(GetAllSunAsync))]
+        public async Task<IActionResult> GetAllSunAsync(CancellationToken ct)
         {
-            var Sun = await _sunService.GetSunAsync(ct);
+            var Sun = await _sunService.GetAllSunAsync(ct);
 
-            var collectionLink = Link.ToCollection(nameof(GetSunAsync));
+            var collectionLink = Link.ToCollection(nameof(GetAllSunAsync));
             var collection = new Collection<Sun>
             {
                 Self = collectionLink,

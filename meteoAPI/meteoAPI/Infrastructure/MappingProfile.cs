@@ -47,6 +47,10 @@ namespace meteoAPI.Infrastructure
                 .ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
                 Link.To(nameof(Controllers.WindController.GetWindByIdAsync), new { windId = src.Id })));
 
+            CreateMap<CloudsEntity, Clouds>().ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
+                Link.To(nameof(Controllers.CloudsController.GetCloudsByIdAsync), new { cloudsId = src.Id })));
+
             CreateMap<UserEntity, User>()
                 .ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
                     Link.To(nameof(Controllers.AuthentificationController.GetUserByIdAsync),

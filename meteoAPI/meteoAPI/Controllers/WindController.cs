@@ -21,12 +21,12 @@ namespace meteoAPI.Controllers
             _windService = windService;
         }
 
-        [HttpGet(Name = nameof(GetWindAsync))]
-        public async Task<IActionResult> GetWindAsync(CancellationToken ct)
+        [HttpGet(Name = nameof(GetAllWindAsync))]
+        public async Task<IActionResult> GetAllWindAsync(CancellationToken ct)
         {
-            var wind = await _windService.GetWindAsync(ct);
+            var wind = await _windService.GetAllWindAsync(ct);
 
-            var collectionLink = Link.ToCollection(nameof(GetWindAsync));
+            var collectionLink = Link.ToCollection(nameof(GetAllWindAsync));
             var collection = new Collection<Wind>
             {
                 Self = collectionLink,
