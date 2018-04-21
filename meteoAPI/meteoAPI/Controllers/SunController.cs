@@ -36,7 +36,7 @@ namespace meteoAPI.Controllers
         }
 
         [HttpGet("{sunId}", Name = nameof(GetSunByIdAsync))]
-        public async Task<IActionResult> GetSunByIdAsync(int sunId, CancellationToken ct)
+        public async Task<IActionResult> GetSunByIdAsync(Guid sunId, CancellationToken ct)
         {
             var sun = await _sunService.GetSunAsync(sunId, ct);
             if (sun == null) return NotFound();

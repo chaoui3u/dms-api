@@ -5,13 +5,8 @@ using System.Threading.Tasks;
 
 namespace meteoAPI.Models
 {
-    public class RootResponse :Resource
+    public class WeatherRecord :Resource
     {
-        public Link Signup { get; set; }
-        public Link Logout { get; set; }
-        public Link Users { get; set; }
-        public Link Sites { get; set; }
-        public Link Mesures { get; set; }
         public Link Clouds { get; set; }
         public Link MainData { get; set; }
         public Link Rain { get; set; }
@@ -19,6 +14,6 @@ namespace meteoAPI.Models
         public Link Sun { get; set; }
         public Link Weather { get; set; }
         public Link Wind { get; set; }
-        public Link WeatherRecord { get; set; }
+        public DateTimeOffset CurrentTime { get; set; }
     }
 }

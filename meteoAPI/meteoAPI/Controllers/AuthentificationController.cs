@@ -61,7 +61,7 @@ namespace meteoAPI.Controllers
                 }
             }
 
-            //  Return a collection of visible users
+        
             return Ok(mySelf);
 
         }

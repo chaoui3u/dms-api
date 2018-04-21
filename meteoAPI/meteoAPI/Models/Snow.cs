@@ -7,7 +7,6 @@ namespace meteoAPI.Models
 {
     public class Snow : Resource
     {
-        public Guid Id { get; set; }
         public float Volume { get; set; }
     }
 }

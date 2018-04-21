@@ -8,7 +8,7 @@ namespace meteoAPI.Models
     public class Clouds : Resource
     {
         
-        public Guid Id { get; set; }
+       
         public int All { get; set; }
     }
 }

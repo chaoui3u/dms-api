@@ -19,6 +19,7 @@ namespace meteoAPI
         public DbSet<WeatherEntity> Weather { get; set; }
         public DbSet<SnowEntity> Snow { get; set; }
         public DbSet<MainDataEntity> MainData { get; set; }
+        public DbSet<WeatherRecordEntity> WeatherRecords { get; set; }
 
         public MeteoApiContext(DbContextOptions<MeteoApiContext> options):base(options)
         {

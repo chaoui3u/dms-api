@@ -7,7 +7,6 @@ namespace meteoAPI.Models
 {
     public class MainData : Resource
     {
-        public int Id { get; set; }
         public float Temp { get; set; }
         public int Humidity { get; set; }
         public float TempMin { get; set; }

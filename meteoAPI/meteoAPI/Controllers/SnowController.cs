@@ -36,7 +36,7 @@ namespace meteoAPI.Controllers
         }
 
         [HttpGet("{snowId}", Name = nameof(GetSnowByIdAsync))]
-        public async Task<IActionResult> GetSnowByIdAsync(int snowId, CancellationToken ct)
+        public async Task<IActionResult> GetSnowByIdAsync(Guid snowId, CancellationToken ct)
         {
             var snow = await _snowService.GetSnowAsync(snowId, ct);
             if (snow == null) return NotFound();

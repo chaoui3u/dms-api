@@ -17,6 +17,7 @@ namespace meteoAPI.Controllers
             var Response = new RootResponse
             {
                 Self= Link.To(nameof(GetRoot)),
+                WeatherRecord = Link.To(nameof(WeatherRecordController.GetAllWeatherRecordAsync)),
                 Signup = Link.To(nameof(AuthentificationController.RegisterUserAsync)),
                 Logout = Link.To(nameof(AuthentificationController.GetLogOut)),
                 Users = Link.To(nameof(AuthentificationController.GetVisibleUsersAsync)),

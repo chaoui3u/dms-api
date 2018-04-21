@@ -132,6 +132,7 @@ namespace meteoAPI
             services.AddScoped<IWindService, DefaultWindService>();
            services.AddScoped<ICloudsService, DefaultCloudsService>();
             services.AddScoped<IUserService, DefaultUserService>();
+            services.AddScoped<IWeatherRecordService, DefaultWeatherRecordService>();
 
             //add Policy Authorisation
             services.AddAuthorization(opt=> 
@@ -202,15 +203,15 @@ namespace meteoAPI
 
         private static void AddTestData(MeteoApiContext context)
         {
-            context.Clouds.Add(new CloudsEntity
+           var CloudVar = context.Clouds.Add(new CloudsEntity
             {
                 All = 10
-            });
+            }).Entity;
             context.Clouds.Add(new CloudsEntity
             {
                 All = 20
             });
-            context.MainData.Add(new MainDataEntity
+            var MainDataVar = context.MainData.Add(new MainDataEntity
             {
                 Temp = 30,
                 Humidity = 10,
@@ -219,25 +220,31 @@ namespace meteoAPI
                 Pressure = 995.93F,
                 SeaLevel = 1031.17F,
                 GrndLevel = 995.93F
-            });
-            context.Rain.Add(new RainEntity
+            }).Entity;
+           var RainVar =  context.Rain.Add(new RainEntity
             {
                 Volume = 0.03F
-            });
-            context.Snow.Add(new SnowEntity
+            }).Entity;
+            var SnowVar = context.Snow.Add(new SnowEntity
             {
                 Volume = 0
-            });
-            context.Sun.Add(new SunEntity
+            }).Entity;
+            var SunVar = context.Sun.Add(new SunEntity
             {
                 SunRise = new DateTime(2018, 4, 20, 8, 30, 0),
                 SunSet = new DateTime(2018, 4, 20, 19, 30, 0)
-            });
-            context.Wind.Add(new WindEntity
+            }).Entity;
+
+            var WeatherVar = context.Weather.Add(new WeatherEntity
+            {
+                Description = "Sunny"
+            }).Entity;
+
+            var WindVar = context.Wind.Add(new WindEntity
             {
                 Speed = 120,
                 Degree = 180
-            });
+            }).Entity;
             context.Sites.Add(new SiteEntity
             {
                 Id = "CRIC",
@@ -276,6 +283,18 @@ namespace meteoAPI
                 Id_Site = "SAM1",
                 Unit = "_",
                 Phy_name = "NOX"
+            });
+
+            context.WeatherRecords.Add(new WeatherRecordEntity
+            {
+                Clouds = CloudVar,
+                MainData = MainDataVar,
+                Rain = RainVar,
+                Snow = SnowVar,
+                Sun = SunVar,
+                Weather = WeatherVar,
+                Wind = WindVar,
+                CurrentTime = DateTimeOffset.Now
             });
             context.SaveChanges();
         }

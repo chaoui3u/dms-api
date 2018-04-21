@@ -36,7 +36,7 @@ namespace meteoAPI.Controllers
         }
 
         [HttpGet("{rainId}", Name = nameof(GetRainByIdAsync))]
-        public async Task<IActionResult> GetRainByIdAsync(int rainId, CancellationToken ct)
+        public async Task<IActionResult> GetRainByIdAsync(Guid rainId, CancellationToken ct)
         {
             var rain = await _rainService.GetRainAsync(rainId, ct);
             if (rain == null) return NotFound();
