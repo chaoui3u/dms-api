@@ -11,16 +11,7 @@ namespace meteoAPI.Infrastructure
     {
         public MappingProfile()
         {
-            CreateMap<SiteEntity, Site>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
-                Link.To(nameof(Controllers.SitesController.GetSitesByIdAsync), new { siteId = src.Id })));
-
-            CreateMap<MesureEntity, Mesure>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
-                Link.To(nameof(Controllers.MesuresController.GetMesuresByIdAsync), new { mesureId = src.Id })));
-
+           
             CreateMap<MainDataEntity, MainData>()
                 .ForMember(dest => dest.Humidity , opt => opt.MapFrom(src => src.Humidity))
                 .ForMember(dest => dest.Self, opt => opt.MapFrom(src =>

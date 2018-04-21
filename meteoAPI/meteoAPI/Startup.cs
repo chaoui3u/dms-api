@@ -122,8 +122,6 @@ namespace meteoAPI
 
             //services.Configure<Sites>(Configuration.GetSection("Sites"));
 
-            services.AddScoped<ISiteService, DefaultSiteService>();
-            services.AddScoped<IMesureService, DefaultMesureService>();
             services.AddScoped<IMainDataService, DefaultMainDataService>();
             services.AddScoped<IRainService, DefaultRainService>();
             services.AddScoped<ISnowService, DefaultSnowService>();
@@ -245,45 +243,7 @@ namespace meteoAPI
                 Speed = 120,
                 Degree = 180
             }).Entity;
-            context.Sites.Add(new SiteEntity
-            {
-                Id = "CRIC",
-                Refrence = "01505",
-                Label = "CRIC Saint Quentin",
-                Latitude = 0.87008541721366,
-                Logitude = 0.05736315474888,
-                Type = "0",
-                Classification = null,
-                Area = "Trafic"
-            });
-
-            context.Sites.Add(new SiteEntity
-            {
-                Id = "SM_SQ1",
-                Refrence = "01506",
-                Label = "P. Bert St Quentin",
-                Latitude = 0.870274,
-                Logitude = 0.05771077,
-                Type = "0",
-                Classification = "Périurbaine",
-                Area = "De fond"
-            });
-            context.Mesures.Add(new MesureEntity
-            {
-                Id = "idNO",
-                Label = "label du NO",
-                Id_Site = "SAM1",
-                Unit = "_",
-                Phy_name = "NO"
-            });
-            context.Mesures.Add(new MesureEntity
-            {
-                Id = "idNOX",
-                Label = " label du NOX",
-                Id_Site = "SAM1",
-                Unit = "_",
-                Phy_name = "NOX"
-            });
+           
 
             context.WeatherRecords.Add(new WeatherRecordEntity
             {
