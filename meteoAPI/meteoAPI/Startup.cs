@@ -56,14 +56,14 @@ namespace meteoAPI
             //TODO:swap out with real database while in production
             services.AddDbContext<MeteoApiContext>(opt => 
                  {
-                     opt.UseInMemoryDatabase();
-                //opt.UseSqlServer("Data Source=DESKTOP-BLRLJMH;" +
-                //    "Initial Catalog=Weather;" +
-                //    "Integrated Security=True;" +
-                //    "Connect Timeout=30;Encrypt=False;" +
-                //    "TrustServerCertificate=False;" +
-                //    "ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-                opt.UseOpenIddict();
+                     //opt.UseInMemoryDatabase();
+                     opt.UseSqlServer("Data Source=DESKTOP-BLRLJMH;" +
+                         "Initial Catalog=Weather;" +
+                         "Integrated Security=True;" +
+                         "Connect Timeout=30;Encrypt=False;" +
+                         "TrustServerCertificate=False;" +
+                         "ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                     opt.UseOpenIddict();
                 });
 
             // Map some of the default claim names to the proper OpenID Connect claim names
