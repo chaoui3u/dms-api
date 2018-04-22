@@ -24,12 +24,12 @@ namespace meteoAPI.Infrastructure
             //        "Connect Timeout=30;Encrypt=False;" +
             //        "TrustServerCertificate=False;" +
             //        "ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-            builder.UseSqlServer("Data Source=DESKTOP-BLRLJMH;" +
-                    "Initial Catalog=Weather;" +
-                    "Integrated Security=True;" +
-                    "Connect Timeout=30;Encrypt=False;" +
-                    "TrustServerCertificate=False;" +
-                    "ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            builder.UseSqlServer("Data Source=DESKTOP-BLRLJMH\\SQLEXPRESS;" +
+                         "Initial Catalog=Weather;Integrated Security=True;" +
+                         "Connect Timeout=30;Encrypt=False;" +
+                         "TrustServerCertificate=False;" +
+                         "ApplicationIntent=ReadWrite;" +
+                         "MultiSubnetFailover=False");
             return new MeteoApiContext(builder.Options);
         }
     }

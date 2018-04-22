@@ -57,12 +57,12 @@ namespace meteoAPI
             services.AddDbContext<MeteoApiContext>(opt => 
                  {
                      //opt.UseInMemoryDatabase();
-                     opt.UseSqlServer("Data Source=DESKTOP-BLRLJMH;" +
-                         "Initial Catalog=Weather;" +
-                         "Integrated Security=True;" +
+                     opt.UseSqlServer("Data Source=DESKTOP-BLRLJMH\\SQLEXPRESS;" +
+                         "Initial Catalog=Weather;Integrated Security=True;" +
                          "Connect Timeout=30;Encrypt=False;" +
                          "TrustServerCertificate=False;" +
-                         "ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                         "ApplicationIntent=ReadWrite;" +
+                         "MultiSubnetFailover=False");
                      opt.UseOpenIddict();
                 });
 
@@ -147,19 +147,19 @@ namespace meteoAPI
             loggerFactory.AddDebug();
 
             //add test data in development
-            if (env.IsDevelopment())
-            {
-                //Add test roles and users
-                var roleManager = app.ApplicationServices
-                    .GetRequiredService<RoleManager<UserRoleEntity>>();
-                var userManager = app.ApplicationServices
-                    .GetRequiredService<UserManager<UserEntity>>();
+            //if (env.IsDevelopment())
+            //{
+            //    //Add test roles and users
+            //    var roleManager = app.ApplicationServices
+            //        .GetRequiredService<RoleManager<UserRoleEntity>>();
+            //    var userManager = app.ApplicationServices
+            //        .GetRequiredService<UserManager<UserEntity>>();
                
 
                
-              AddTestUsers(roleManager, userManager, app.ApplicationServices.GetRequiredService<MeteoApiContext>()).Wait();
-             AddTestData(app.ApplicationServices.GetRequiredService<MeteoApiContext>());
-            }
+            // AddTestUsers(roleManager, userManager, app.ApplicationServices.GetRequiredService<MeteoApiContext>()).Wait();
+            //AddTestData(app.ApplicationServices.GetRequiredService<MeteoApiContext>());
+            //}
 
             app.UseHsts(opt => 
             {
