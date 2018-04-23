@@ -15,10 +15,13 @@ namespace meteoAPI.Controllers
     public class WeatherRecordController : Controller
     {
         private readonly IWeatherRecordService _weatherRecordService;
+        private readonly IDateLogicService _dateLogicService;
 
-        public WeatherRecordController(IWeatherRecordService weatherRecordService)
+        public WeatherRecordController(IWeatherRecordService weatherRecordService,
+            IDateLogicService dateLogicService)
         {
             _weatherRecordService = weatherRecordService;
+            _dateLogicService = dateLogicService;
         }
 
         [HttpGet(Name = nameof(GetAllWeatherRecordAsync))]
@@ -42,6 +45,21 @@ namespace meteoAPI.Controllers
             if (weatherRecord == null) return NotFound();
 
             return Ok(weatherRecord);
+        }
+
+        [HttpGet("{start}/{end}",Name = nameof(GetRangeWeatherRecordsAsync))]
+        public async Task<IActionResult> GetRangeWeatherRecordsAsync(DateTimeOffset start, DateTimeOffset end, CancellationToken ct)
+        {
+            if (_dateLogicService.DoesConflict(start, end)) return NotFound();
+            var weatherRecords = await _dateLogicService.GetWeatherRecordsInRange(start, end,ct);
+
+            var collectionLink = Link.ToCollection(nameof(GetRangeWeatherRecordsAsync));
+            var collection = new Collection<WeatherRecord>
+            {
+                Self = collectionLink,
+                Value = weatherRecords.ToArray()
+            };
+            return Ok(collection);
         }
     }
 }

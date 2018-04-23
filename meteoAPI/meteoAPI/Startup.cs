@@ -131,7 +131,7 @@ namespace meteoAPI
            services.AddScoped<ICloudsService, DefaultCloudsService>();
             services.AddScoped<IUserService, DefaultUserService>();
             services.AddScoped<IWeatherRecordService, DefaultWeatherRecordService>();
-
+            services.AddScoped<IDateLogicService, DefaultWeatherRecordService>();
             //add Policy Authorisation
             services.AddAuthorization(opt=> 
             {
@@ -147,19 +147,19 @@ namespace meteoAPI
             loggerFactory.AddDebug();
 
             //add test data in development
-            //if (env.IsDevelopment())
-            //{
-            //    //Add test roles and users
-            //    var roleManager = app.ApplicationServices
-            //        .GetRequiredService<RoleManager<UserRoleEntity>>();
-            //    var userManager = app.ApplicationServices
-            //        .GetRequiredService<UserManager<UserEntity>>();
-               
+            if (env.IsDevelopment())
+            {
+                //Add test roles and users
+                var roleManager = app.ApplicationServices
+                    .GetRequiredService<RoleManager<UserRoleEntity>>();
+                var userManager = app.ApplicationServices
+                    .GetRequiredService<UserManager<UserEntity>>();
 
-               
-            // AddTestUsers(roleManager, userManager, app.ApplicationServices.GetRequiredService<MeteoApiContext>()).Wait();
-            //AddTestData(app.ApplicationServices.GetRequiredService<MeteoApiContext>());
-            //}
+
+
+                //AddTestUsers(roleManager, userManager, app.ApplicationServices.GetRequiredService<MeteoApiContext>()).Wait();
+                AddTestData(app.ApplicationServices.GetRequiredService<MeteoApiContext>());
+            }
 
             app.UseHsts(opt => 
             {
