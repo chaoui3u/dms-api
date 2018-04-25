@@ -19,7 +19,6 @@ namespace meteoAPI.Controllers
                 Self= Link.To(nameof(GetRoot)),
                 WeatherRecord = Link.To(nameof(WeatherRecordController.GetAllWeatherRecordAsync)),
                 Signup = Link.To(nameof(AuthentificationController.RegisterUserAsync)),
-                Logout = Link.To(nameof(AuthentificationController.GetLogOut)),
                 Users = Link.To(nameof(AuthentificationController.GetVisibleUsersAsync)),
                 Clouds = Link.To(nameof(CloudsController.GetAllCloudsAsync)),
                 MainData = Link.To(nameof(MainDataController.GetAllMainDataAsync)),

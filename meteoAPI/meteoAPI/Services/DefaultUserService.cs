@@ -3,6 +3,7 @@ using AutoMapper.QueryableExtensions;
 using meteoAPI.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using OpenIddict.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,14 +13,18 @@ using System.Threading.Tasks;
 
 namespace meteoAPI.Services
 {
-    public class DefaultUserService : IUserService
+    public class DefaultUserService : IUserService 
     {
         private readonly UserManager<UserEntity> _userManager;
+        
 
-        public DefaultUserService(UserManager<UserEntity> userManager, MeteoApiContext context)
+        public DefaultUserService(UserManager<UserEntity> userManager,
+            MeteoApiContext context)
         {
             _userManager = userManager;
+       
         }
+   
 
         public async Task<(bool Succeed, string Error)> CreateUserAsync(RegisterForm form)
         {

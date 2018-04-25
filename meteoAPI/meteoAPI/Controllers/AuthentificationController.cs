@@ -2,6 +2,7 @@
 using meteoAPI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OpenIddict.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace meteoAPI.Controllers
     {
         private readonly IUserService _userService;
         private readonly IAuthorizationService _authzService;
+      
 
         public AuthentificationController(
            IUserService userService,
@@ -22,14 +24,10 @@ namespace meteoAPI.Controllers
         {
             _userService = userService;
             _authzService = authzService;
+  
         }
 
 
-        [HttpGet("logout",Name = nameof(GetLogOut))]
-        public IActionResult GetLogOut()
-        {
-            throw new NotImplementedException();
-        }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet("users", Name = nameof(GetVisibleUsersAsync))]

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace meteoAPI.Controllers
 {
-    //[Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("[controller]/")]
     public class WeatherRecordController : Controller
     {

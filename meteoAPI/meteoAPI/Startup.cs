@@ -64,7 +64,7 @@ namespace meteoAPI
                          "ApplicationIntent=ReadWrite;" +
                          "MultiSubnetFailover=False");
                      opt.UseOpenIddict();
-                });
+                 });
 
             // Map some of the default claim names to the proper OpenID Connect claim names
             services.Configure<IdentityOptions>(opt =>
@@ -84,7 +84,7 @@ namespace meteoAPI
                 opt.AllowPasswordFlow();
                 services.AddAuthentication().AddOAuthValidation();
                 services.AddSingleton<IAuthenticationSchemeProvider, CustomAuthenticationSchemeProvider>();
-                
+            
 
             });
             
@@ -132,6 +132,7 @@ namespace meteoAPI
             services.AddScoped<IUserService, DefaultUserService>();
             services.AddScoped<IWeatherRecordService, DefaultWeatherRecordService>();
             services.AddScoped<IDateLogicService, DefaultWeatherRecordService>();
+         
             //add Policy Authorisation
             services.AddAuthorization(opt=> 
             {
@@ -147,19 +148,19 @@ namespace meteoAPI
             loggerFactory.AddDebug();
 
             //add test data in development
-            if (env.IsDevelopment())
-            {
-                //Add test roles and users
-                var roleManager = app.ApplicationServices
-                    .GetRequiredService<RoleManager<UserRoleEntity>>();
-                var userManager = app.ApplicationServices
-                    .GetRequiredService<UserManager<UserEntity>>();
+            //if (env.IsDevelopment())
+            //{
+            //    //Add test roles and users
+            //    var roleManager = app.ApplicationServices
+            //        .GetRequiredService<RoleManager<UserRoleEntity>>();
+            //    var userManager = app.ApplicationServices
+            //        .GetRequiredService<UserManager<UserEntity>>();
 
 
 
-                //AddTestUsers(roleManager, userManager, app.ApplicationServices.GetRequiredService<MeteoApiContext>()).Wait();
-                AddTestData(app.ApplicationServices.GetRequiredService<MeteoApiContext>());
-            }
+            //    //AddTestUsers(roleManager, userManager, app.ApplicationServices.GetRequiredService<MeteoApiContext>()).Wait();
+            //    AddTestData(app.ApplicationServices.GetRequiredService<MeteoApiContext>());
+            //}
 
             app.UseHsts(opt => 
             {
