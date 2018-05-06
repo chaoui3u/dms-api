@@ -32,10 +32,7 @@ namespace meteoAPI.Infrastructure
                 .ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
                 Link.To(nameof(Controllers.SunController.GetSunByIdAsync), new { sunId = src.Id })));
 
-            CreateMap<WeatherEntity, Weather>()
-                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
-                .ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
-                Link.To(nameof(Controllers.WeatherController.GetWeatherByIdAsync), new { weatherId = src.Id })));
+           
 
           
 
@@ -62,8 +59,6 @@ namespace meteoAPI.Infrastructure
                Link.To(nameof(Controllers.SnowController.GetSnowByIdAsync), new { SnowId = src.Snow.Id })))
                 .ForMember(dest => dest.Sun, opt => opt.MapFrom(src =>
                Link.To(nameof(Controllers.SunController.GetSunByIdAsync), new { SunId = src.Sun.Id })))
-                .ForMember(dest => dest.Weather, opt => opt.MapFrom(src =>
-               Link.To(nameof(Controllers.WeatherController.GetWeatherByIdAsync), new { WeatherId = src.Weather.Id })))
                  .ForMember(dest => dest.Wind, opt => opt.MapFrom(src =>
                Link.To(nameof(Controllers.WindController.GetWindByIdAsync), new { WindId = src.Wind.Id })))
                  .ForMember(dest => dest.CurrentTime, opt => opt.MapFrom(src => src.CurrentTime));

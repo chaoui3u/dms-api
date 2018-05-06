@@ -24,8 +24,7 @@ namespace meteoAPI.Controllers
                 MainData = Link.To(nameof(MainDataController.GetAllMainDataAsync)),
                 Rain = Link.To(nameof(RainController.GetAllRainAsync)),
                 Snow = Link.To(nameof(SnowController.GetAllSnowAsync)),
-                Sun= Link.To(nameof(SunController.GetAllSunAsync)),
-                Weather = Link.To(nameof(WeatherController.GetAllWeatherAsync)),
+                Sun= Link.To(nameof(SunController.GetAllSunAsync)),        
                 Wind= Link.To(nameof(WindController.GetAllWindAsync))
             };
             return Ok(Response);

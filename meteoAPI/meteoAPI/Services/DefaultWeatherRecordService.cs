@@ -31,7 +31,6 @@ namespace meteoAPI.Services
                 .Include(b => b.Rain)
                 .Include(b => b.Snow)
                 .Include(b => b.Sun)
-                .Include(b => b.Weather)
                 .Include(b => b.Wind)
                 .ProjectTo<WeatherRecord>();
 
@@ -54,7 +53,6 @@ namespace meteoAPI.Services
                .Include(b => b.Rain)
                .Include(b => b.Snow)
                .Include(b => b.Sun)
-               .Include(b => b.Weather)
                .Include(b => b.Wind)
                .Where(b => b.CurrentTime >= start && b.CurrentTime <= end)
                .ProjectTo<WeatherRecord>();

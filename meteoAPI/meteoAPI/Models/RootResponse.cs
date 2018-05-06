@@ -14,7 +14,6 @@ namespace meteoAPI.Models
         public Link Rain { get; set; }
         public Link Snow { get; set; }
         public Link Sun { get; set; }
-        public Link Weather { get; set; }
         public Link Wind { get; set; }
         public Link WeatherRecord { get; set; }
     }

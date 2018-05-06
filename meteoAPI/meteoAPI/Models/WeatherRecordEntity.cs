@@ -13,7 +13,6 @@ namespace meteoAPI.Models
         public RainEntity Rain { get; set; }
         public SnowEntity Snow { get; set; }
         public SunEntity Sun { get; set; }
-        public WeatherEntity Weather { get; set; }
         public WindEntity Wind { get; set; }
         public DateTimeOffset CurrentTime { get; set; }
     }

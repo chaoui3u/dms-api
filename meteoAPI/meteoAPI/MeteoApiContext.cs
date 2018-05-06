@@ -15,7 +15,6 @@ namespace meteoAPI
         public DbSet<WindEntity> Wind { get; set; }
         public DbSet<RainEntity> Rain { get; set; }
         public DbSet<SunEntity> Sun { get; set; }
-        public DbSet<WeatherEntity> Weather { get; set; }
         public DbSet<SnowEntity> Snow { get; set; }
         public DbSet<MainDataEntity> MainData { get; set; }
         public DbSet<WeatherRecordEntity> WeatherRecords { get; set; }

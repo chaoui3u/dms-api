@@ -175,18 +175,6 @@ namespace meteoAPI.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
-            modelBuilder.Entity("meteoAPI.Models.WeatherEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Description");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Weather");
-                });
-
             modelBuilder.Entity("meteoAPI.Models.WeatherRecordEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -204,8 +192,6 @@ namespace meteoAPI.Migrations
 
                     b.Property<Guid?>("SunId");
 
-                    b.Property<Guid?>("WeatherId");
-
                     b.Property<Guid?>("WindId");
 
                     b.HasKey("Id");
@@ -219,8 +205,6 @@ namespace meteoAPI.Migrations
                     b.HasIndex("SnowId");
 
                     b.HasIndex("SunId");
-
-                    b.HasIndex("WeatherId");
 
                     b.HasIndex("WindId");
 
@@ -343,10 +327,6 @@ namespace meteoAPI.Migrations
                     b.HasOne("meteoAPI.Models.SunEntity", "Sun")
                         .WithMany()
                         .HasForeignKey("SunId");
-
-                    b.HasOne("meteoAPI.Models.WeatherEntity", "Weather")
-                        .WithMany()
-                        .HasForeignKey("WeatherId");
 
                     b.HasOne("meteoAPI.Models.WindEntity", "Wind")
                         .WithMany()

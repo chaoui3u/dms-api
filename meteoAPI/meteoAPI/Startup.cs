@@ -126,7 +126,6 @@ namespace meteoAPI
             services.AddScoped<IRainService, DefaultRainService>();
             services.AddScoped<ISnowService, DefaultSnowService>();
             services.AddScoped<ISunService, DefaultSunService>();
-            services.AddScoped<IWeatherService, DefaultWeatherService>();
             services.AddScoped<IWindService, DefaultWindService>();
            services.AddScoped<ICloudsService, DefaultCloudsService>();
             services.AddScoped<IUserService, DefaultUserService>();
@@ -234,11 +233,7 @@ namespace meteoAPI
                 SunSet = new DateTime(2018, 4, 20, 19, 30, 0)
             }).Entity;
 
-            var WeatherVar = context.Weather.Add(new WeatherEntity
-            {
-                Description = "Sunny"
-            }).Entity;
-
+           
             var WindVar = context.Wind.Add(new WindEntity
             {
                 Speed = 120,
@@ -253,7 +248,6 @@ namespace meteoAPI
                 Rain = RainVar,
                 Snow = SnowVar,
                 Sun = SunVar,
-                Weather = WeatherVar,
                 Wind = WindVar,
                 CurrentTime = DateTimeOffset.Now
             });
