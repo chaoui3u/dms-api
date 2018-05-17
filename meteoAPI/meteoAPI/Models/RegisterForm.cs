@@ -31,5 +31,11 @@ namespace meteoAPI.Models
         [MaxLength(100)]
         [Display(Name = "lastName", Description = "Last name")]
         public string LastName { get; set; }
+
+        [Required]
+        [MinLength(1)]
+        [MaxLength(100)]
+        [Display(Name = "role", Description = "Role")]
+        public string Role { get; set; }
     }
 }

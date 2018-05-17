@@ -37,6 +37,8 @@ namespace meteoAPI.Services
                 CreatedAt = DateTimeOffset.UtcNow
             };
             var result = await _userManager.CreateAsync(entity, form.Password);
+            await _userManager.AddToRoleAsync(entity, form.Role);
+            await _userManager.UpdateAsync(entity);
             if (!result.Succeeded)
             {
                 var firstError = result.Errors.FirstOrDefault()?.Description;

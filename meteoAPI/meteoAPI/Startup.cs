@@ -157,11 +157,11 @@ namespace meteoAPI
 
 
 
-            //    //AddTestUsers(roleManager, userManager, app.ApplicationServices.GetRequiredService<MeteoApiContext>()).Wait();
-            //    AddTestData(app.ApplicationServices.GetRequiredService<MeteoApiContext>());
-            //}
+                 //     AddTestUsers(roleManager, userManager, app.ApplicationServices.GetRequiredService<MeteoApiContext>()).Wait();
+                //    AddTestData(app.ApplicationServices.GetRequiredService<MeteoApiContext>());
+                //}
 
-            app.UseHsts(opt => 
+                app.UseHsts(opt => 
             {
                 opt.MaxAge(days: 180);
                 opt.IncludeSubdomains();
@@ -178,7 +178,7 @@ namespace meteoAPI
             UserManager<UserEntity> userManager, MeteoApiContext context)
         {
             //add a test role
-            await roleManager.CreateAsync(new UserRoleEntity("Admin"));
+            await roleManager.CreateAsync(new UserRoleEntity("Staff"));
             //add a test user
             var user = new UserEntity
             {
@@ -191,11 +191,11 @@ namespace meteoAPI
             };
 
             context.Users.Add(user);
-            
+
             await userManager.CreateAsync(user, "Password123!");
             context.SaveChanges();
             //Put the user in the Admin Role
-            await userManager.AddToRoleAsync(user, "Admin");        
+            await userManager.AddToRoleAsync(user, "Admin");
             await userManager.UpdateAsync(user);
         }
 

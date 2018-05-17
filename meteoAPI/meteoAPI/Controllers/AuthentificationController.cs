@@ -56,11 +56,12 @@ namespace meteoAPI.Controllers
                 else
                 {
                      mySelf= await _userService.GetUserAsync(User);
+                    return Ok(mySelf);
                 }
             }
 
-        
-            return Ok(mySelf);
+            return Unauthorized();
+            
 
         }
 
@@ -76,19 +77,32 @@ namespace meteoAPI.Controllers
             return Ok(user);
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost("signup", Name = nameof(RegisterUserAsync))]
         public async Task<IActionResult> RegisterUserAsync(
             [FromBody] RegisterForm form,
             CancellationToken ct)
         {
             if (!ModelState.IsValid) return BadRequest(new ApiError(ModelState));
-            var (succeed, error) = await _userService.CreateUserAsync(form);
-            if (succeed) return Created(Url.Link(nameof(GetMeAsync),null),null);
-            return BadRequest(new ApiError
+
+            //check if admin to add user
+            if (User.Identity.IsAuthenticated)
             {
-                Message = "Registration failed",
-                Detail = error
-            });
+                var canSeeEveryOne = await _authzService.AuthorizeAsync(User, "ViewAllUsersPolicy");
+                if (canSeeEveryOne.Succeeded)
+                {
+                    var (succeed, error) = await _userService.CreateUserAsync(form);
+                    if (succeed) return Created(Url.Link(nameof(GetMeAsync), null), null);
+
+
+                    return BadRequest(new ApiError
+                    {
+                        Message = "Registration failed",
+                        Detail = error
+                    });
+                }
+            }
+            return Unauthorized();
         }
 
         [Authorize]
