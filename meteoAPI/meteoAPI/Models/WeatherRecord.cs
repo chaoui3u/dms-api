@@ -7,13 +7,12 @@ namespace meteoAPI.Models
 {
     public class WeatherRecord :Resource
     {
-        public Link Clouds { get; set; }
-        public Link MainData { get; set; }
-        public Link Rain { get; set; }
-        public Link Snow { get; set; }
-        public Link Sun { get; set; }
-        public Link Weather { get; set; }
-        public Link Wind { get; set; }
+        public Clouds Clouds { get; set; }
+        public MainData MainData { get; set; }
+        public Rain Rain { get; set; }
+        public Snow Snow { get; set; }
+        public Sun Sun { get; set; }
+        public Wind Wind { get; set; }
         public DateTimeOffset CurrentTime { get; set; }
     }
 }

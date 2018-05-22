@@ -49,19 +49,26 @@ namespace meteoAPI.Infrastructure
             CreateMap<WeatherRecordEntity, WeatherRecord>()
                 .ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
                 Link.To(nameof(Controllers.WeatherRecordController.GetWeatherRecordByIdAsync), new { WeatherRecordId = src.Id })))
-                .ForMember(dest => dest.Clouds, opt => opt.MapFrom(src =>
-                Link.To(nameof(Controllers.CloudsController.GetCloudsByIdAsync), new { cloudsId = src.Clouds.Id })))
-                .ForMember(dest => dest.MainData, opt => opt.MapFrom(src =>
-               Link.To(nameof(Controllers.MainDataController.GetMainDataByIdAsync), new { mainDataId = src.MainData.Id })))
-                 .ForMember(dest => dest.Rain, opt => opt.MapFrom(src =>
-               Link.To(nameof(Controllers.RainController.GetRainByIdAsync), new { RainId = src.Rain.Id })))
-                .ForMember(dest => dest.Snow, opt => opt.MapFrom(src =>
-               Link.To(nameof(Controllers.SnowController.GetSnowByIdAsync), new { SnowId = src.Snow.Id })))
-                .ForMember(dest => dest.Sun, opt => opt.MapFrom(src =>
-               Link.To(nameof(Controllers.SunController.GetSunByIdAsync), new { SunId = src.Sun.Id })))
-                 .ForMember(dest => dest.Wind, opt => opt.MapFrom(src =>
-               Link.To(nameof(Controllers.WindController.GetWindByIdAsync), new { WindId = src.Wind.Id })))
-                 .ForMember(dest => dest.CurrentTime, opt => opt.MapFrom(src => src.CurrentTime));
+                .ForMember(dest => dest.CurrentTime, opt => opt.MapFrom(src => src.CurrentTime));
+            CreateMap<WeatherRecordEntity, Clouds>()
+                .ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
+                Link.To(nameof(Controllers.CloudsController.GetCloudsByIdAsync), new { cloudsId = src.Clouds.Id })));
+            CreateMap<WeatherRecordEntity, MainData>()
+                .ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
+               Link.To(nameof(Controllers.MainDataController.GetMainDataByIdAsync), new { mainDataId = src.MainData.Id })));
+            CreateMap<WeatherRecordEntity, Rain>()
+                 .ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
+               Link.To(nameof(Controllers.RainController.GetRainByIdAsync), new { RainId = src.Rain.Id })));
+            CreateMap<WeatherRecordEntity, Snow>()
+                .ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
+               Link.To(nameof(Controllers.SnowController.GetSnowByIdAsync), new { SnowId = src.Snow.Id })));
+            CreateMap<WeatherRecordEntity, Sun>()
+                .ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
+               Link.To(nameof(Controllers.SunController.GetSunByIdAsync), new { SunId = src.Sun.Id })));
+            CreateMap<WeatherRecordEntity, Wind>()
+                 .ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
+               Link.To(nameof(Controllers.WindController.GetWindByIdAsync), new { WindId = src.Wind.Id })));
+                 
 
                CreateMap<UserEntity, User>()
                 .ForMember(dest => dest.Self, opt => opt.MapFrom(src =>
