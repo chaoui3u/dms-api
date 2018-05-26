@@ -27,11 +27,9 @@ namespace meteoAPI.Services
         public async Task<IEnumerable<WeatherRecord>> GetAllWeatherRecordAsync(CancellationToken ct)
         {
             var query = _context.WeatherRecords
-                .Include(b => b.Clouds)
-                .Include(b => b.Rain)
-                .Include(b => b.Snow)
-                .Include(b => b.Sun)
+                .Include(b => b.MainData)
                 .Include(b => b.Wind)
+                .OrderBy(b => b.CurrentTime)
                 .ProjectTo<WeatherRecord>();
 
             return await query.ToArrayAsync();
@@ -48,13 +46,12 @@ namespace meteoAPI.Services
 
         public async Task<IEnumerable<WeatherRecord>> GetWeatherRecordsInRange(DateTimeOffset start, DateTimeOffset end,CancellationToken ct)
         {
+
             var query = _context.WeatherRecords
-               .Include(b => b.Clouds)
-               .Include(b => b.Rain)
-               .Include(b => b.Snow)
-               .Include(b => b.Sun)
+                .Include(b=> b.MainData)
                .Include(b => b.Wind)
-               .Where(b => b.CurrentTime >= start && b.CurrentTime <= end)
+               .Where(b => (b.CurrentTime >= start && b.CurrentTime <= end))
+               .OrderBy(b => b.CurrentTime)
                .ProjectTo<WeatherRecord>();
 
             return await query.ToArrayAsync();

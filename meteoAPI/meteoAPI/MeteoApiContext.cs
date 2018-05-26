@@ -11,11 +11,7 @@ namespace meteoAPI
     public class MeteoApiContext :IdentityDbContext<UserEntity,UserRoleEntity, Guid>
     {
   
-        public DbSet<CloudsEntity> Clouds { get; set; }
         public DbSet<WindEntity> Wind { get; set; }
-        public DbSet<RainEntity> Rain { get; set; }
-        public DbSet<SunEntity> Sun { get; set; }
-        public DbSet<SnowEntity> Snow { get; set; }
         public DbSet<MainDataEntity> MainData { get; set; }
         public DbSet<WeatherRecordEntity> WeatherRecords { get; set; }
 

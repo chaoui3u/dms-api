@@ -9,12 +9,6 @@ namespace meteoAPI.Models
     {
         public Link Signup { get; set; }
         public Link Users { get; set; }
-        public Link Clouds { get; set; }
-        public Link MainData { get; set; }
-        public Link Rain { get; set; }
-        public Link Snow { get; set; }
-        public Link Sun { get; set; }
-        public Link Wind { get; set; }
         public Link WeatherRecord { get; set; }
     }
 }

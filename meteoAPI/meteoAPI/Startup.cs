@@ -122,12 +122,7 @@ namespace meteoAPI
 
             //services.Configure<Sites>(Configuration.GetSection("Sites"));
 
-            services.AddScoped<IMainDataService, DefaultMainDataService>();
-            services.AddScoped<IRainService, DefaultRainService>();
-            services.AddScoped<ISnowService, DefaultSnowService>();
-            services.AddScoped<ISunService, DefaultSunService>();
-            services.AddScoped<IWindService, DefaultWindService>();
-           services.AddScoped<ICloudsService, DefaultCloudsService>();
+
             services.AddScoped<IUserService, DefaultUserService>();
             services.AddScoped<IWeatherRecordService, DefaultWeatherRecordService>();
             services.AddScoped<IDateLogicService, DefaultWeatherRecordService>();
@@ -157,11 +152,11 @@ namespace meteoAPI
 
 
 
-                 //     AddTestUsers(roleManager, userManager, app.ApplicationServices.GetRequiredService<MeteoApiContext>()).Wait();
-                //    AddTestData(app.ApplicationServices.GetRequiredService<MeteoApiContext>());
-                //}
+            //     AddTestUsers(roleManager, userManager, app.ApplicationServices.GetRequiredService<MeteoApiContext>()).Wait();
+        //    AddTestData(app.ApplicationServices.GetRequiredService<MeteoApiContext>());
+        //}
 
-                app.UseHsts(opt => 
+        app.UseHsts(opt => 
             {
                 opt.MaxAge(days: 180);
                 opt.IncludeSubdomains();
@@ -201,36 +196,12 @@ namespace meteoAPI
 
         private static void AddTestData(MeteoApiContext context)
         {
-           var CloudVar = context.Clouds.Add(new CloudsEntity
-            {
-                All = 10
-            }).Entity;
-            context.Clouds.Add(new CloudsEntity
-            {
-                All = 20
-            });
+
             var MainDataVar = context.MainData.Add(new MainDataEntity
             {
                 Temp = 30,
                 Humidity = 10,
-                TempMin = 20,
-                TempMax = 35,
                 Pressure = 995.93F,
-                SeaLevel = 1031.17F,
-                GrndLevel = 995.93F
-            }).Entity;
-           var RainVar =  context.Rain.Add(new RainEntity
-            {
-                Volume = 0.03F
-            }).Entity;
-            var SnowVar = context.Snow.Add(new SnowEntity
-            {
-                Volume = 0
-            }).Entity;
-            var SunVar = context.Sun.Add(new SunEntity
-            {
-                SunRise = new DateTime(2018, 4, 20, 8, 30, 0),
-                SunSet = new DateTime(2018, 4, 20, 19, 30, 0)
             }).Entity;
 
            
@@ -243,11 +214,7 @@ namespace meteoAPI
 
             context.WeatherRecords.Add(new WeatherRecordEntity
             {
-                Clouds = CloudVar,
                 MainData = MainDataVar,
-                Rain = RainVar,
-                Snow = SnowVar,
-                Sun = SunVar,
                 Wind = WindVar,
                 CurrentTime = DateTimeOffset.Now
             });

@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace meteoAPI.Models
 {
-    public class Wind : Resource
+    public class Wind 
     {
-        public Guid Id { get; set; }
         public float Speed { get; set; }
         public float Degree { get; set; }
     }

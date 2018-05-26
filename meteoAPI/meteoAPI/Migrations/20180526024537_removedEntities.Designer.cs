@@ -11,9 +11,10 @@ using System;
 namespace meteoAPI.Migrations
 {
     [DbContext(typeof(MeteoApiContext))]
-    partial class MeteoApiContextModelSnapshot : ModelSnapshot
+    [Migration("20180526024537_removedEntities")]
+    partial class removedEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
