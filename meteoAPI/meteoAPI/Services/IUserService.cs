@@ -12,8 +12,11 @@ namespace meteoAPI.Services
     public interface IUserService
     {
         Task<IEnumerable<User>> GetUsersAsync(CancellationToken ct);
-
         Task<(bool Succeed, string Error)> CreateUserAsync(RegisterForm form);
-        Task<User> GetUserAsync(ClaimsPrincipal user);
+        Task<User> GetMeAsync(ClaimsPrincipal user);
+        Task<bool> DeleteUserAsync(Guid userId);
+        Task<(bool succeed, string error)> ModifiyUserAsync(Guid userId, RegisterForm form);
+        Task<User> GetUserAsync(Guid userId);
+        Task<UserEntity> GetMyEntityAsync(ClaimsPrincipal user);
     }
 }

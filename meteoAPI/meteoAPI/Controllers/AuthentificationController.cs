@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace meteoAPI.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("[controller]/")]
     public class AuthentificationController : Controller
     {
@@ -29,7 +30,7 @@ namespace meteoAPI.Controllers
 
 
 
-        [Authorize(AuthenticationSchemes = "Bearer")]
+
         [HttpGet("users", Name = nameof(GetVisibleUsersAsync))]
         public async Task<IActionResult> GetVisibleUsersAsync(CancellationToken ct)
         {
@@ -55,7 +56,7 @@ namespace meteoAPI.Controllers
                 }
                 else
                 {
-                     mySelf= await _userService.GetUserAsync(User);
+                     mySelf= await _userService.GetMeAsync(User);
                     return Ok(mySelf);
                 }
             }
@@ -65,23 +66,22 @@ namespace meteoAPI.Controllers
 
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        [HttpGet("users/me", Name = nameof(GetMeAsync))]
-        public async Task<IActionResult> GetMeAsync(CancellationToken ct)
+
+        [HttpGet("users/me", Name = nameof(GetMyUserAsync))]
+        public async Task<IActionResult> GetMyUserAsync()
         {
             if (User == null) return BadRequest();
 
-            var user = await _userService.GetUserAsync(User);
+            var user = await _userService.GetMeAsync(User);
             if (user == null) return NotFound();
 
             return Ok(user);
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer")]
+
         [HttpPost("signup", Name = nameof(RegisterUserAsync))]
         public async Task<IActionResult> RegisterUserAsync(
-            [FromBody] RegisterForm form,
-            CancellationToken ct)
+            [FromBody] RegisterForm form)
         {
             if (!ModelState.IsValid) return BadRequest(new ApiError(ModelState));
 
@@ -92,7 +92,7 @@ namespace meteoAPI.Controllers
                 if (canSeeEveryOne.Succeeded)
                 {
                     var (succeed, error) = await _userService.CreateUserAsync(form);
-                    if (succeed) return Created(Url.Link(nameof(GetMeAsync), null), null);
+                    if (succeed) return Created(Url.Link(nameof(GetMyUserAsync), null), null);
 
 
                     return BadRequest(new ApiError
@@ -105,14 +105,90 @@ namespace meteoAPI.Controllers
             return Unauthorized();
         }
 
-        [Authorize]
-        [HttpGet("users/{userId}", Name = nameof(GetUserByIdAsync))]
-        public Task<IActionResult> GetUserByIdAsync(Guid userId, CancellationToken ct)
+        [HttpDelete("users/{userId}", Name = nameof(DeleteUserByIdAsync))]
+        public async Task<ActionResult> DeleteUserByIdAsync(Guid userId)
         {
-            // TODO is userId the current user's ID?
-            // If so, return myself.
-            // If not, only Admin roles should be able to view arbitrary users.
-            throw new NotImplementedException();
+            if (User.Identity.IsAuthenticated)
+            {
+                var canSeeEveryOne = await _authzService.AuthorizeAsync(User, "ViewAllUsersPolicy");
+                if (canSeeEveryOne.Succeeded)
+                {
+                    var myUser = await _userService.GetMeAsync(User);
+                    var thisUser = await _userService.GetUserAsync(userId);
+                    if (myUser.Email == thisUser.Email) return Unauthorized();
+
+                    var result = await _userService.DeleteUserAsync(userId);
+                    if (result) return Accepted();
+                    else return NotFound();
+                }
+                else
+                {
+                    return Unauthorized();
+                }
+            }
+            return Unauthorized();
+        }
+        [HttpPut("users/me", Name = nameof(ModifyMyUserAsync))]
+        public async Task<IActionResult> ModifyMyUserAsync([FromBody] RegisterForm form)
+        {
+            if (!ModelState.IsValid) return BadRequest(new ApiError(ModelState));
+            if (User == null) return BadRequest();
+            var user = await _userService.GetMyEntityAsync(User);
+            if (user == null) return BadRequest();
+            var (succeed, error) = await _userService.ModifiyUserAsync(user.Id, form);
+            if (succeed) return Accepted(Url.Link(nameof(GetMyUserAsync), null), null);
+
+            return BadRequest(new ApiError
+            {
+                Message = "update failed",
+                Detail = error
+            });
+        }
+
+        [HttpPut("users/{userId}", Name = nameof(ModifyUserByIdAsync))]
+        public async Task<ActionResult> ModifyUserByIdAsync(Guid userId, [FromBody] RegisterForm form)
+        {
+            if (!ModelState.IsValid) return BadRequest(new ApiError(ModelState));
+
+            if (User.Identity.IsAuthenticated)
+            {
+                var canSeeEveryOne = await _authzService.AuthorizeAsync(User, "ViewAllUsersPolicy");
+                if (canSeeEveryOne.Succeeded)
+                {
+                    var (succeed, error) = await _userService.ModifiyUserAsync(userId, form);
+                    if (succeed) return Accepted(Url.Link(nameof(GetUserByIdAsync), null), null);
+
+                    return BadRequest(new ApiError
+                    {
+                        Message = "update failed",
+                        Detail = error
+                    });
+                }
+                else
+                {
+                    return Unauthorized();
+                }
+            }
+            return Unauthorized();
+        }
+        [HttpGet("users/{userId}", Name = nameof(GetUserByIdAsync))]
+        public async Task<IActionResult> GetUserByIdAsync(Guid userId)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var canSeeEveryOne = await _authzService.AuthorizeAsync(User, "ViewAllUsersPolicy");
+                if (canSeeEveryOne.Succeeded)
+                {
+                    var user = await _userService.GetUserAsync(userId);
+                    if (user == null) return NotFound();
+                    return Ok(user);
+                }
+                else
+                {
+                    return Unauthorized();
+                }
+            }
+            return Unauthorized();
         }
     }
 }
