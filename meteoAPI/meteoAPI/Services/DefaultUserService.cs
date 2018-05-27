@@ -26,7 +26,7 @@ namespace meteoAPI.Services
         }
    
 
-        public async Task<(bool Succeed, string Error)> CreateUserAsync(RegisterForm form)
+        public async Task<(bool Succeed, string Error)> CreateUserAsync(RegisterForm form, UserEntity myUser)
         {
             var entity = new UserEntity
             {
@@ -35,7 +35,8 @@ namespace meteoAPI.Services
                 FirstName= form.FirstName,
                 LastName = form.LastName,
                 Role = form.Role,
-                CreatedAt = DateTimeOffset.UtcNow
+                CreatedBy = myUser.UserName,
+                 CreatedAt = DateTimeOffset.UtcNow
             };
             var result = await _userManager.CreateAsync(entity, form.Password);
             await _userManager.AddToRoleAsync(entity, form.Role);
@@ -81,9 +82,9 @@ namespace meteoAPI.Services
         }
 
 
-        public async Task<(bool succeed, string error)> ModifiyUserAsync(Guid userId,RegisterForm form)
+        public async Task<(bool succeed, string error)> ModifiyUserAsync(Guid userId,RegisterForm form, UserEntity myUser)
         {
-            var user = _userManager.FindByIdAsync(userId.ToString()).Result;
+            UserEntity user = await _userManager.FindByIdAsync(userId.ToString());
             if(user == null)
             return (false, null);
 
@@ -93,12 +94,14 @@ namespace meteoAPI.Services
             user.LastName = form.LastName;
             user.PasswordHash = _userManager.PasswordHasher.HashPassword(user,form.Password);
 
-            var roles = _userManager.GetRolesAsync(user);
+            var roles = _userManager.GetRolesAsync(myUser);
             if ( roles.Result.FirstOrDefault() == "Admin")
             {
                 user.Role = form.Role;
                 await _userManager.AddToRoleAsync(user, form.Role);
             }
+            if (roles.Result.FirstOrDefault() == "Staff" && form.Role == "Admin")
+                return (false, "Staff can't change to admin, if you want to change your status check with an admin.");
 
             var result= await _userManager.UpdateAsync(user);
             if (!result.Succeeded)

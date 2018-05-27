@@ -91,7 +91,8 @@ namespace meteoAPI.Controllers
                 var canSeeEveryOne = await _authzService.AuthorizeAsync(User, "ViewAllUsersPolicy");
                 if (canSeeEveryOne.Succeeded)
                 {
-                    var (succeed, error) = await _userService.CreateUserAsync(form);
+                    UserEntity myUser = await _userService.GetMyUserEntityAsync(User);
+                    var (succeed, error) = await _userService.CreateUserAsync(form,myUser);
                     if (succeed) return Created(Url.Link(nameof(GetMyUserAsync), null), null);
 
 
@@ -140,7 +141,7 @@ namespace meteoAPI.Controllers
             if (!ModelState.IsValid) return BadRequest(new ApiError(ModelState));
             if (User == null) return BadRequest();
             var user = await _userService.GetMyUserEntityAsync(User);
-            var (succeed, error) = await _userService.ModifiyUserAsync(user.Id, form);
+            var (succeed, error) = await _userService.ModifiyUserAsync(user.Id, form,user);
             if (succeed) return Accepted(Url.Link(nameof(GetMyUserAsync), null), null);
 
             return BadRequest(new ApiError
@@ -160,7 +161,8 @@ namespace meteoAPI.Controllers
                 var canSeeEveryOne = await _authzService.AuthorizeAsync(User, "ViewAllUsersPolicy");
                 if (canSeeEveryOne.Succeeded)
                 {
-                    var (succeed, error) = await _userService.ModifiyUserAsync(userId, form);
+                    UserEntity myUser = await _userService.GetMyUserEntityAsync(User);
+                    var (succeed, error) = await _userService.ModifiyUserAsync(userId, form,myUser);
                     if (succeed) return Accepted(Url.Link(nameof(GetUserByIdAsync), null), null);
 
                     return BadRequest(new ApiError
