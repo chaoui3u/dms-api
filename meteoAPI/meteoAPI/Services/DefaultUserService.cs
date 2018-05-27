@@ -61,9 +61,15 @@ namespace meteoAPI.Services
             var entity = await _userManager.GetUserAsync(user);
             return Mapper.Map<User>(entity);
         }
-        public async Task<UserEntity> GetMyEntityAsync(ClaimsPrincipal user)
+        public async Task<UserEntity> GetMyUserEntityAsync(ClaimsPrincipal user)
         {
             var entity = await _userManager.GetUserAsync(user);
+            return entity;
+        }
+        public async Task<UserEntity> GetUserEntityByIdAsync(Guid userId)
+        {
+            var entity = await _userManager.FindByIdAsync(userId.ToString());
+            if (entity == null) return null;
             return entity;
         }
 

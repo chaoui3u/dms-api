@@ -40,6 +40,7 @@ namespace meteoAPI.Controllers
             IEnumerable<User> users = new List<User>();
             var mySelf = new User();
             // Authorization check. Is the user an admin?
+            // only admin can see all users
             if (User.Identity.IsAuthenticated)
             {
                 var canSeeEveryOne = await _authzService.AuthorizeAsync(User, "ViewAllUsersPolicy");
@@ -73,7 +74,6 @@ namespace meteoAPI.Controllers
             if (User == null) return BadRequest();
 
             var user = await _userService.GetMeAsync(User);
-            if (user == null) return NotFound();
 
             return Ok(user);
         }
@@ -110,13 +110,17 @@ namespace meteoAPI.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
+                //only admin can delete by id
                 var canSeeEveryOne = await _authzService.AuthorizeAsync(User, "ViewAllUsersPolicy");
                 if (canSeeEveryOne.Succeeded)
                 {
-                    var myUser = await _userService.GetMeAsync(User);
-                    var thisUser = await _userService.GetUserAsync(userId);
-                    if (myUser.Email == thisUser.Email) return Unauthorized();
+                    //prohibiting user to delete himself
+                    var myUser = await _userService.GetMyUserEntityAsync(User);
+                    var thisUser = await _userService.GetUserEntityByIdAsync(userId);
+                    if (thisUser == null) return NotFound();
+                    if (myUser.Id == thisUser.Id) return Unauthorized();
 
+                    //delete user
                     var result = await _userService.DeleteUserAsync(userId);
                     if (result) return Accepted();
                     else return NotFound();
@@ -131,10 +135,11 @@ namespace meteoAPI.Controllers
         [HttpPut("users/me", Name = nameof(ModifyMyUserAsync))]
         public async Task<IActionResult> ModifyMyUserAsync([FromBody] RegisterForm form)
         {
+            //user can modify his own data
+            //only admin can modify his role
             if (!ModelState.IsValid) return BadRequest(new ApiError(ModelState));
             if (User == null) return BadRequest();
-            var user = await _userService.GetMyEntityAsync(User);
-            if (user == null) return BadRequest();
+            var user = await _userService.GetMyUserEntityAsync(User);
             var (succeed, error) = await _userService.ModifiyUserAsync(user.Id, form);
             if (succeed) return Accepted(Url.Link(nameof(GetMyUserAsync), null), null);
 
@@ -149,7 +154,7 @@ namespace meteoAPI.Controllers
         public async Task<ActionResult> ModifyUserByIdAsync(Guid userId, [FromBody] RegisterForm form)
         {
             if (!ModelState.IsValid) return BadRequest(new ApiError(ModelState));
-
+            //only admin can modify user by id
             if (User.Identity.IsAuthenticated)
             {
                 var canSeeEveryOne = await _authzService.AuthorizeAsync(User, "ViewAllUsersPolicy");
@@ -174,6 +179,7 @@ namespace meteoAPI.Controllers
         [HttpGet("users/{userId}", Name = nameof(GetUserByIdAsync))]
         public async Task<IActionResult> GetUserByIdAsync(Guid userId)
         {
+            //only admin can get user by id
             if (User.Identity.IsAuthenticated)
             {
                 var canSeeEveryOne = await _authzService.AuthorizeAsync(User, "ViewAllUsersPolicy");
