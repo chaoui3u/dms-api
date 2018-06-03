@@ -131,7 +131,7 @@ namespace meteoAPI
             services.AddAuthorization(opt=> 
             {
                 opt.AddPolicy("ViewAllUsersPolicy",
-                    p => p.RequireAuthenticatedUser().RequireRole("Admin"));
+                    p => p.RequireAuthenticatedUser().RequireRole("Administrateur"));
             });
         }
 
@@ -173,13 +173,13 @@ namespace meteoAPI
             UserManager<UserEntity> userManager, MeteoApiContext context)
         {
             //add a test role
-            await roleManager.CreateAsync(new UserRoleEntity("Staff"));
+            await roleManager.CreateAsync(new UserRoleEntity("Personnel"));
             //add a test user
             var user = new UserEntity
             {
                 Email = "admin@test.local",
                 UserName = "admin@test.local",
-                FirstName = "Admin",
+                FirstName = "Administrateur",
                 LastName = "Tester",
                 CreatedAt = DateTimeOffset.UtcNow,
                 SecurityStamp = Guid.NewGuid().ToString()
@@ -189,8 +189,8 @@ namespace meteoAPI
 
             await userManager.CreateAsync(user, "Password123!");
             context.SaveChanges();
-            //Put the user in the Admin Role
-            await userManager.AddToRoleAsync(user, "Admin");
+            //Put the user in the Administrateur Role
+            await userManager.AddToRoleAsync(user, "Administrateur");
             await userManager.UpdateAsync(user);
         }
 

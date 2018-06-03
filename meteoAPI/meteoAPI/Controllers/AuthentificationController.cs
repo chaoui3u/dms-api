@@ -134,7 +134,7 @@ namespace meteoAPI.Controllers
             return Unauthorized();
         }
         [HttpPut("users/me", Name = nameof(ModifyMyUserAsync))]
-        public async Task<IActionResult> ModifyMyUserAsync([FromBody] RegisterForm form)
+        public async Task<IActionResult> ModifyMyUserAsync([FromBody] UpdateForm form)
         {
             //user can modify his own data
             //only admin can modify his role
@@ -152,7 +152,7 @@ namespace meteoAPI.Controllers
         }
 
         [HttpPut("users/{userId}", Name = nameof(ModifyUserByIdAsync))]
-        public async Task<ActionResult> ModifyUserByIdAsync(Guid userId, [FromBody] RegisterForm form)
+        public async Task<ActionResult> ModifyUserByIdAsync(Guid userId, [FromBody] UpdateForm form)
         {
             if (!ModelState.IsValid) return BadRequest(new ApiError(ModelState));
             //only admin can modify user by id

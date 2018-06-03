@@ -82,7 +82,7 @@ namespace meteoAPI.Services
         }
 
 
-        public async Task<(bool succeed, string error)> ModifiyUserAsync(Guid userId,RegisterForm form, UserEntity myUser)
+        public async Task<(bool succeed, string error)> ModifiyUserAsync(Guid userId,UpdateForm form, UserEntity myUser)
         {
             UserEntity user = await _userManager.FindByIdAsync(userId.ToString());
             if(user == null)
@@ -92,16 +92,17 @@ namespace meteoAPI.Services
             user.UserName = form.Email;
             user.FirstName = form.FirstName;
             user.LastName = form.LastName;
+            if(!string.IsNullOrEmpty(form.Password))
             user.PasswordHash = _userManager.PasswordHasher.HashPassword(user,form.Password);
 
             var roles = _userManager.GetRolesAsync(myUser);
-            if ( roles.Result.FirstOrDefault() == "Admin")
+            if ( roles.Result.FirstOrDefault() == "Administrateur")
             {
                 user.Role = form.Role;
                 await _userManager.AddToRoleAsync(user, form.Role);
             }
-            if (roles.Result.FirstOrDefault() == "Staff" && form.Role == "Admin")
-                return (false, "Staff can't change to admin, if you want to change your status check with an admin.");
+            if (roles.Result.FirstOrDefault() == "Personnel" && form.Role == "Administrateur")
+                return (false, "Le personnel ne peut pas changer son status à administrateur.");
 
             var result= await _userManager.UpdateAsync(user);
             if (!result.Succeeded)

@@ -15,7 +15,7 @@ namespace meteoAPI.Services
         Task<(bool Succeed, string Error)> CreateUserAsync(RegisterForm form, UserEntity myUser);
         Task<User> GetMeAsync(ClaimsPrincipal user);
         Task<bool> DeleteUserAsync(Guid userId);
-        Task<(bool succeed, string error)> ModifiyUserAsync(Guid userId, RegisterForm form, UserEntity myUser);
+        Task<(bool succeed, string error)> ModifiyUserAsync(Guid userId, UpdateForm form, UserEntity myUser);
         Task<User> GetUserAsync(Guid userId);
         Task<UserEntity> GetMyUserEntityAsync(ClaimsPrincipal user);
         Task<UserEntity> GetUserEntityByIdAsync(Guid userId);
