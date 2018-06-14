@@ -20,6 +20,8 @@ namespace meteoAPI.Controllers
                 WeatherRecord = Link.To(nameof(WeatherRecordController.GetAllWeatherRecordAsync)),
                 Signup = Link.To(nameof(AuthentificationController.RegisterUserAsync)),
                 Users = Link.To(nameof(AuthentificationController.GetVisibleUsersAsync)),
+                Profile = Link.To(nameof(AuthentificationController.GetMyUserAsync)),
+                Login = Link.To(nameof(TokenController.TokenExchangeAsync))
             };
             return Ok(Response);
         }
